@@ -23,8 +23,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [qrOpen, setQrOpen] = useState(false);
 
-  // On the Homepage (`/`), LOMORA embeds the pill navbar directly inside the Hero stage
-  // (exact match to `media_1793973652900_eb509023.jpg` Web & `media_1793973625835_2c629f08.jpg` Mobile).
+  // On the Homepage (`/`), LOMORA embeds the navbar directly inside the Hero stage
   if (pathname === "/") {
     return null;
   }
@@ -38,18 +37,23 @@ export default function Header() {
           backgroundSize: "420px 420px",
         }}
       >
-        <div className="mx-auto max-w-7xl h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
-          {/* Desktop LOMORA Pill Navigation Bar */}
-          <div className="flex items-center gap-3">
-            <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/logo-horizontal-shadow.png"
-                alt="مطعم الياسمين للمأكولات السورية"
-                className="h-10 sm:h-11 w-auto object-contain group-hover:scale-105 transition-transform"
-              />
-            </Link>
+        {/* dir="ltr" ensures Logo is always on the LEFT and Burger Menu / Nav is on the RIGHT */}
+        <div
+          dir="ltr"
+          className="mx-auto max-w-7xl h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-3"
+        >
+          {/* LEFT: Official Alyasmin Shadowed Logo */}
+          <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo-horizontal-shadow.png"
+              alt="مطعم الياسمين للمأكولات السورية"
+              className="h-10 sm:h-11 w-auto object-contain group-hover:scale-105 transition-transform"
+            />
+          </Link>
 
+          {/* CENTER/RIGHT: Desktop Pill Navigation + Actions + Mobile Burger Menu on RIGHT */}
+          <div dir="rtl" className="flex items-center gap-2.5">
             <nav className="hidden lg:flex items-center gap-1 rounded-full bg-[#18110C]/90 text-white px-3 py-1.5 shadow-md">
               {nav.map((n) => {
                 const active = pathname === n.href;
@@ -68,10 +72,7 @@ export default function Header() {
                 );
               })}
             </nav>
-          </div>
 
-          {/* Actions */}
-          <div className="flex items-center gap-2 shrink-0">
             <button
               type="button"
               onClick={() => setQrOpen(true)}
@@ -92,10 +93,10 @@ export default function Header() {
             <Link
               href="/cart"
               aria-label="سلة الطلبات"
-              className="relative inline-flex items-center gap-2 rounded-full bg-[#18110C] text-white px-4 py-2 text-xs font-extrabold shadow-md hover:bg-[#2A1E15] transition"
+              className="relative inline-flex items-center gap-2 rounded-full bg-[#18110C] text-white px-3.5 py-2 text-xs font-extrabold shadow-md hover:bg-[#2A1E15] transition"
             >
               <BagIcon className="w-4 h-4 text-[#E8A514]" />
-              <span>السلة</span>
+              <span className="hidden sm:inline">السلة</span>
               {count > 0 && (
                 <span className="min-w-5 h-5 px-1.5 rounded-full bg-[#E8A514] text-[#18110C] text-[11px] font-black grid place-items-center">
                   {count}
@@ -107,7 +108,7 @@ export default function Header() {
               type="button"
               onClick={() => setOpen((v) => !v)}
               aria-label="القائمة"
-              className="lg:hidden w-10 h-10 rounded-full bg-[#18110C] text-white grid place-items-center"
+              className="lg:hidden w-11 h-11 rounded-full bg-[#18110C] text-white grid place-items-center shadow-md"
             >
               {open ? <CloseIcon className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
             </button>
@@ -116,7 +117,10 @@ export default function Header() {
       </header>
 
       {open && (
-        <div className="lg:hidden fixed inset-0 top-16 z-40 bg-black/50 backdrop-blur-xs" onClick={() => setOpen(false)}>
+        <div
+          className="lg:hidden fixed inset-0 top-16 z-40 bg-black/50 backdrop-blur-xs"
+          onClick={() => setOpen(false)}
+        >
           <div
             className="bg-[#E8A514] border-b border-[#18110C]/15 p-4 space-y-2 shadow-2xl"
             style={{
