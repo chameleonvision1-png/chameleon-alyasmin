@@ -19,60 +19,54 @@ const STORY_SLIDES = [
     caption: "كباب حلبي وشيش طاووق طازج يومياً",
   },
   {
-    src: "/images/hero/family-feast-box.webp",
-    alt: "وليمة العيلة من الياسمين",
+    src: "/images/products/shawarma-beef-saj.webp",
+    alt: "سفرة الياسمين الدمشقية",
     caption: "صواني اللمة والعزومات السورية",
   },
 ];
 
 export default function StoryGallery() {
   const [active, setActive] = useState(0);
-  const trackRef = useRef<HTMLDivElement | null>(null);
-
-  const scrollToSlide = (idx: number) => {
-    const el = trackRef.current;
-    if (!el) return;
-    const child = el.children[idx] as HTMLElement | undefined;
-    if (child) {
-      child.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-      setActive(idx);
-    }
-  };
-
-  const handleScroll = () => {
-    const el = trackRef.current;
-    if (!el || !el.clientWidth) return;
-    const idx = Math.round(Math.abs(el.scrollLeft) / el.clientWidth);
-    setActive(Math.max(0, Math.min(STORY_SLIDES.length - 1, idx)));
-  };
+  const touchStartX = useRef<number | null>(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setActive((prev) => {
-        const next = (prev + 1) % STORY_SLIDES.length;
-        const el = trackRef.current;
-        if (el) {
-          const child = el.children[next] as HTMLElement | undefined;
-          if (child) {
-            el.scrollTo({ left: child.offsetLeft, behavior: "smooth" });
-          }
-        }
-        return next;
-      });
+      setActive((prev) => (prev + 1) % STORY_SLIDES.length);
     }, 4000);
     return () => clearInterval(timer);
   }, []);
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const endX = e.changedTouches[0]?.clientX ?? touchStartX.current;
+    const diff = endX - touchStartX.current;
+    if (Math.abs(diff) > 40) {
+      if (diff < 0) {
+        setActive((prev) => (prev + 1) % STORY_SLIDES.length);
+      } else {
+        setActive((prev) => (prev - 1 + STORY_SLIDES.length) % STORY_SLIDES.length);
+      }
+    }
+    touchStartX.current = null;
+  };
+
   return (
-    <div className="relative aspect-square sm:aspect-[5/4] rounded-[24px] sm:rounded-[28px] overflow-hidden bg-[#23170E] shadow-[0_20px_50px_-20px_rgba(24,17,12,0.25)]">
-      {/* Horizontal Snap Track */}
+    <div
+      dir="ltr"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      className="relative aspect-square sm:aspect-[5/4] rounded-[24px] sm:rounded-[28px] overflow-hidden bg-[#23170E] shadow-[0_20px_50px_-20px_rgba(24,17,12,0.25)] select-none"
+    >
       <div
-        ref={trackRef}
-        onScroll={handleScroll}
-        className="w-full h-full flex overflow-x-auto snap-x snap-mandatory no-scrollbar"
+        className="w-full h-full flex transition-transform duration-500 ease-out"
+        style={{ transform: `translate3d(-${active * 100}%, 0, 0)` }}
       >
         {STORY_SLIDES.map((slide, idx) => (
-          <div key={idx} className="w-full h-full shrink-0 snap-center relative">
+          <div key={idx} dir="rtl" className="w-full h-full shrink-0 relative">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={slide.src}
@@ -90,14 +84,14 @@ export default function StoryGallery() {
       </div>
 
       {/* Interactive Working Carousel Dots */}
-      <div className="absolute inset-x-0 bottom-3.5 flex items-center justify-center gap-2 z-10">
+      <div className="absolute inset-x-0 bottom-3.5 flex items-center justify-center gap-2 z-10" dir="ltr">
         {STORY_SLIDES.map((slide, idx) => (
           <button
             key={idx}
             type="button"
-            onClick={() => scrollToSlide(idx)}
+            onClick={() => setActive(idx)}
             aria-label={slide.alt}
-            className={`rounded-full transition-all ${
+            className={`rounded-full transition-all cursor-pointer ${
               idx === active
                 ? "w-6 h-2 bg-[#E8A514] shadow"
                 : "w-2 h-2 bg-white/55 hover:bg-white"
