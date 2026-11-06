@@ -232,9 +232,9 @@ export default function LomoraHero() {
           </div>
         )}
 
-        {/* Clean 3-Line Headline (No extra badge above title, zero orphan word wrapping) */}
-        <div className="pt-1 text-right">
-          <h1 className="text-[clamp(1.35rem,6.1vw,1.85rem)] font-black leading-[1.35] tracking-tight text-[#18110C]">
+        {/* Clean 3-Line Centered Headline */}
+        <div className="pt-1 text-center">
+          <h1 className="text-[clamp(1.35rem,6.1vw,1.85rem)] font-black leading-[1.35] tracking-tight text-[#18110C] text-center">
             <span className="block whitespace-nowrap">أصالة المذاق السوري</span>
             <span className="block whitespace-nowrap text-[#FFFDF7] drop-shadow-[0_2px_8px_rgba(24,17,12,0.22)]">
               شاورما عالصاج ومشاوي شامية
@@ -307,12 +307,12 @@ export default function LomoraHero() {
           })}
         </div>
 
-        {/* Editorial Description + Category Pills (No extra box wrapper) */}
-        <p className="text-xs sm:text-sm leading-[1.8] font-bold text-[#18110C]/90 text-right pt-0.5">
+        {/* Editorial Description + Centered Category Pills */}
+        <p className="text-xs sm:text-sm leading-[1.8] font-bold text-[#18110C]/90 text-center pt-0.5">
           نحضّر أطباقنا الشامية يومياً من أجود اللحوم الطازجة والتتبيلات الدمشقية العريقة، لنقدم لك مذاق الشام الأصيل ودفء الضيافة السورية في كل لقمة.
         </p>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center justify-center gap-2">
           {HERO_PILL_TAGS.map((tag) => (
             <Link
               key={tag.label}
