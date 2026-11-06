@@ -1,0 +1,175 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Alyasmin Damascene — Signature Golden-Yellow, Warm Cream & Deep Walnut Palette */
+  --color-brand: #E8A818;      /* Official Alyasmin Golden-Yellow */
+  --color-brand-600: #D99B10;  /* Rich Damascene Gold */
+  --color-brand-700: #A87508;  /* Dark Aged Brass Gold */
+  --color-brand-50: #FFF8E6;   /* Soft Jasmine Gold Tint */
+  --color-navy: #18110C;       /* Deep Roasted Walnut Stage */
+  --color-teal: #E8A818;       /* Warm Gold Accent */
+  --color-teal-50: #FFF6DC;
+  --color-cyan: #EEAB14;       /* Bright Jasmine Gold */
+  --color-cream: #FFFFFF;      /* LOMORA Clean White Canvas */
+  --color-cream-soft: #FAF6EC; /* Warm Damascene Cream */
+  --color-cream-200: #EAE1CE;  /* Subtle Warm Border */
+  --color-honey: #E8A818;      /* Golden Yellow Highlights */
+  --color-berry: #5A3218;      /* Warm Syrian Brown */
+  --color-leaf: #198754;       /* Fresh Mint Green */
+  --color-plum: #A87508;       /* Dark Gold */
+  --color-ink: #18110C;        /* Deep Espresso Charcoal Text */
+  --color-cocoa: #5A3218;      /* Warm Brown */
+  --font-sans: var(--font-cairo), system-ui, sans-serif;
+  --font-display: var(--font-jakarta), var(--font-cairo), system-ui, sans-serif;
+  --font-en: var(--font-jakarta), var(--font-cairo), system-ui, sans-serif;
+}
+
+:root {
+  --container-7xl: 100%;
+  --container-6xl: 100%;
+}
+
+.max-w-7xl,
+.max-w-6xl {
+  max-width: 100% !important;
+}
+@media (min-width: 1024px) {
+  .max-w-7xl,
+  .max-w-6xl {
+    padding-inline: 2.5rem !important;
+  }
+}
+
+html {
+  scrollbar-width: none;
+  overflow-x: clip;
+  max-width: 100vw;
+}
+html::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  overflow-x: clip;
+  max-width: 100vw;
+  width: 100%;
+  background: #FFFFFF;
+  color: var(--color-ink);
+  font-family: var(--font-cairo), system-ui, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.font-en {
+  font-family: var(--font-jakarta), var(--font-cairo), sans-serif;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* Signature LOMORA Pill Button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 800;
+  transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn-primary {
+  background: var(--color-brand);
+  color: #18110C;
+  box-shadow: 0 10px 24px -8px rgb(232 168 24 / 0.45);
+}
+.btn-primary:hover {
+  background: var(--color-brand-600);
+}
+.btn-dark {
+  background: #18110C;
+  color: #FFFFFF;
+}
+.btn-dark:hover {
+  background: #2B1E15;
+}
+.btn-outline {
+  border: 1.5px solid rgba(24, 17, 12, 0.2);
+  color: #18110C;
+  background: white;
+}
+.btn-whatsapp {
+  background: #25d366;
+  color: white;
+}
+
+/* Subtle gold pattern background utility */
+.bg-shawarma-gold {
+  background-color: #E8A818;
+  background-image: url("/images/shawarma-pattern-gold.webp");
+  background-size: 520px 520px;
+  background-repeat: repeat;
+}
+
+.card {
+  background: white;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(24, 17, 12, 0.08);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.03), 0 14px 32px -16px rgb(24 17 12 / 0.08);
+}
+
+.input {
+  width: 100%;
+  border: 1.5px solid #E5DCCB;
+  background: #FAF7F0;
+  border-radius: 0.875rem;
+  padding: 0.7rem 0.95rem;
+  outline: none;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.input:focus {
+  border-color: var(--color-brand);
+  background: #FFFFFF;
+}
+.label {
+  display: block;
+  font-weight: 800;
+  font-size: 0.875rem;
+  margin-bottom: 0.35rem;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+/* ================= Scroll & Marquee Animations ================= */
+@keyframes lomora-marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(50%, 0, 0);
+  }
+}
+
+.lomora-marquee-track {
+  width: max-content;
+  animation: lomora-marquee 30s linear infinite;
+}
+
+@keyframes float-pill {
+  0%, 100% {
+    transform: translate3d(0, 0px, 0);
+  }
+  50% {
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+.animate-float-pill {
+  animation: float-pill 3.8s ease-in-out infinite;
+}
