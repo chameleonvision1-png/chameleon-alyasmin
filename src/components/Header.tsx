@@ -50,9 +50,9 @@ export default function Header() {
             />
           </Link>
 
-          {/* RIGHT: Desktop Pill Nav + Cart + Burger Menu on Right */}
-          <div dir="rtl" className="flex items-center gap-2">
-            <nav className="hidden lg:flex items-center gap-1 rounded-full bg-[#18110C] text-white px-3 py-1.5 shadow-md">
+          {/* RIGHT: Desktop Pill Nav + Cart + Burger Menu at FAR RIGHT */}
+          <div className="flex items-center gap-2">
+            <nav dir="rtl" className="hidden lg:flex items-center gap-1 rounded-full bg-[#18110C] text-white px-3 py-1.5 shadow-md">
               {nav.map((n) => {
                 const active = pathname === n.href;
                 return (
@@ -81,6 +81,7 @@ export default function Header() {
 
             <Link
               href="/cart"
+              dir="rtl"
               aria-label="سلة الطلبات"
               className="relative inline-flex items-center gap-1.5 rounded-full bg-[#18110C] text-white px-3.5 py-2 text-xs font-extrabold shadow-md hover:bg-[#2A1E15] transition"
             >
@@ -97,7 +98,7 @@ export default function Header() {
               type="button"
               onClick={() => setOpen((v) => !v)}
               aria-label="القائمة"
-              className="lg:hidden w-10 h-10 rounded-full bg-[#18110C] text-white grid place-items-center shadow-md"
+              className="lg:hidden w-10 h-10 rounded-full bg-[#18110C] text-white grid place-items-center shadow-md shrink-0"
             >
               {open ? <CloseIcon className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
             </button>
