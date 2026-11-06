@@ -56,7 +56,7 @@ export default function OccasionForm({ branches }: { branches: Branch[] }) {
   return (
     <form
       onSubmit={submit}
-      className="rounded-[28px] bg-white border border-[#18110C]/10 p-6 space-y-4 lg:sticky lg:top-24 shadow-[0_16px_40px_-18px_rgba(24,17,12,0.12)]"
+      className="w-full min-w-0 rounded-[28px] bg-white border border-[#18110C]/10 p-5 sm:p-6 space-y-4 lg:sticky lg:top-24 shadow-[0_16px_40px_-18px_rgba(24,17,12,0.12)]"
     >
       <div>
         <div dir="ltr" className="font-en text-right text-xs font-extrabold tracking-widest text-[#A87508] uppercase">
@@ -66,14 +66,14 @@ export default function OccasionForm({ branches }: { branches: Branch[] }) {
           احجز ولائم العيلة أو أرسل استفسارك
         </h2>
       </div>
-      <div className="grid sm:grid-cols-2 gap-3">
-        <div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="min-w-0">
           <label className="label" htmlFor="o-name">
             الاسم *
           </label>
           <input id="o-name" name="name" required className="input" />
         </div>
-        <div>
+        <div className="min-w-0">
           <label className="label" htmlFor="o-phone">
             الموبايل *
           </label>
@@ -98,7 +98,7 @@ export default function OccasionForm({ branches }: { branches: Branch[] }) {
           ))}
         </select>
       </div>
-      <div className="grid sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label className="label" htmlFor="o-q">
             العدد التقريبي للأفراد أو الوجبات

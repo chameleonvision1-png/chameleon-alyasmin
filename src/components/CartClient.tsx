@@ -85,18 +85,21 @@ export default function CartClient() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 grid lg:grid-cols-[1fr_430px] gap-6 items-start">
-      <div className="space-y-3.5">
-        <div className="flex items-center justify-between">
-          <div>
-            <div dir="ltr" className="font-en text-right text-xs font-extrabold tracking-widest text-[#A87508] uppercase">
+    <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_420px] gap-6 items-start overflow-x-hidden">
+      <div className="space-y-3.5 min-w-0 w-full">
+        <div className="flex flex-wrap items-end justify-between gap-2">
+          <div className="min-w-0">
+            <div dir="ltr" className="font-en text-right text-[11px] sm:text-xs font-extrabold tracking-widest text-[#A87508] uppercase">
               YOUR DAMASCENE ORDER
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-[#18110C]">
               سلة طلبات الياسمين
             </h1>
           </div>
-          <Link href="/menu" className="text-xs sm:text-sm font-black text-[#A87508] hover:underline">
+          <Link
+            href="/menu"
+            className="shrink-0 rounded-full bg-[#FDF2CE] border border-[#E8A514]/50 px-3.5 py-1.5 text-xs font-black text-[#18110C] hover:bg-[#E8A514] transition"
+          >
             + إضافة أصناف أخرى
           </Link>
         </div>
@@ -104,20 +107,20 @@ export default function CartClient() {
         {cart.map((l) => (
           <div
             key={l.key}
-            className="rounded-[24px] bg-white border border-[#18110C]/10 p-3.5 flex gap-3.5 shadow-xs"
+            className="w-full min-w-0 rounded-[24px] bg-white border border-[#18110C]/10 p-3.5 flex gap-3 sm:gap-3.5 shadow-xs"
           >
             <div className="w-20 h-20 rounded-2xl overflow-hidden bg-[#18110C] shrink-0">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={l.image} alt={l.name} className="w-full h-full object-cover" />
             </div>
             <div className="flex-1 min-w-0">
-              <div className="flex justify-between gap-2">
-                <h3 className="font-black text-sm sm:text-base text-[#18110C] truncate">
+              <div className="flex items-start justify-between gap-2">
+                <h3 className="font-black text-sm sm:text-base text-[#18110C] leading-snug break-words">
                   {l.name}
                 </h3>
                 <button
                   onClick={() => removeLine(l.key)}
-                  className="text-[#292929]/40 hover:text-red-600 cursor-pointer"
+                  className="text-[#292929]/40 hover:text-red-600 cursor-pointer shrink-0 p-1"
                   aria-label="حذف"
                 >
                   <TrashIcon className="w-4 h-4" />
@@ -135,8 +138,8 @@ export default function CartClient() {
                 <div className="text-[11px] text-[#5A3218] mt-0.5">ملاحظة: {l.note}</div>
               )}
 
-              <div className="mt-2.5 flex items-center justify-between">
-                <div className="flex items-center gap-2 rounded-full bg-[#FAF6EC] border border-[#18110C]/12 px-2 py-0.5">
+              <div className="mt-2.5 flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 rounded-full bg-[#FAF6EC] border border-[#18110C]/12 px-2 py-0.5 shrink-0">
                   <button
                     type="button"
                     onClick={() => updateQty(l.key, l.qty - 1)}
@@ -154,7 +157,7 @@ export default function CartClient() {
                   </button>
                 </div>
 
-                <span className="font-black text-sm text-[#18110C]">
+                <span className="font-black text-sm text-[#18110C] shrink-0">
                   {formatPrice(l.unitPrice * l.qty)}
                 </span>
               </div>
@@ -166,14 +169,14 @@ export default function CartClient() {
       {/* Checkout Form */}
       <form
         onSubmit={submit}
-        className="rounded-[28px] bg-white border border-[#18110C]/12 p-5 sm:p-6 space-y-4 lg:sticky lg:top-24 shadow-[0_18px_42px_-18px_rgba(24,17,12,0.14)]"
+        className="w-full min-w-0 rounded-[28px] bg-white border border-[#18110C]/12 p-4 sm:p-6 space-y-4 lg:sticky lg:top-24 shadow-[0_18px_42px_-18px_rgba(24,17,12,0.14)]"
       >
-        <div className="flex items-center justify-between pb-3 border-b border-[#18110C]/10">
-          <h2 className="text-lg font-black text-[#18110C]">بيانات التوصيل والطلب</h2>
+        <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#18110C]/10">
+          <h2 className="text-base sm:text-lg font-black text-[#18110C]">بيانات التوصيل والطلب</h2>
           <a
             href="tel:01010400507"
             dir="ltr"
-            className="font-en inline-flex items-center gap-1 text-xs font-black text-[#A87508]"
+            className="font-en inline-flex items-center gap-1 text-xs font-black text-[#A87508] shrink-0"
           >
             <PhoneIcon className="w-3.5 h-3.5" />
             <span>01010400507</span>
@@ -184,11 +187,11 @@ export default function CartClient() {
         <button
           type="button"
           onClick={openPicker}
-          className="w-full rounded-2xl bg-[#FAF6EC] border border-[#E8A818]/40 p-3 flex items-center justify-between text-right"
+          className="w-full min-w-0 rounded-2xl bg-[#FAF6EC] border border-[#E8A818]/40 p-3 flex items-center justify-between gap-2 text-right"
         >
-          <div className="flex items-center gap-2 min-w-0">
+          <div className="flex items-center gap-2 min-w-0 flex-1">
             <PinIcon className="w-4 h-4 text-[#A87508] shrink-0" />
-            <div className="min-w-0">
+            <div className="min-w-0 flex-1">
               <div className="text-[11px] text-[#5A3218] font-bold">نطاق التوصيل المختار</div>
               <div className="text-xs font-black text-[#18110C] truncate">
                 {branch ? branch.name : "اختر منطقتك في القاهرة"}
@@ -224,8 +227,8 @@ export default function CartClient() {
           </button>
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-3">
-          <div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="min-w-0">
             <label className="label text-xs" htmlFor="c-name">
               الاسم الكامل *
             </label>
@@ -238,7 +241,7 @@ export default function CartClient() {
               placeholder="اكتب اسمك"
             />
           </div>
-          <div>
+          <div className="min-w-0">
             <label className="label text-xs" htmlFor="c-phone">
               رقم الموبايل *
             </label>
