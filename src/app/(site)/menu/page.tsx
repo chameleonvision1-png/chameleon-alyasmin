@@ -1,65 +1,56 @@
 import type { Metadata } from "next";
 import { publicDB } from "@/lib/db";
 import MenuClient from "@/components/MenuClient";
-import { JasmineDiamondIcon, PhoneIcon } from "@/components/icons";
 
 export const metadata: Metadata = {
-  title: "منيو الياسمين الكامل بالأسعار | شاورما، مشاوي، فتات ومقبلات",
+  title: "المنيو الكامل | شاورما، مشاوي، فتات، بروستد ومقبلات سورية",
   description:
-    "تصفح منيو مطعم الياسمين للمأكولات السورية — شاورما دجاج ولحم عالصاج، مشاوي مشكلة عالفحم، فتات دمشقية بالسمن البلدي، مقبلات سورية، وصواني العزومات.",
+    "تصفح المنيو الكامل لمطعم الياسمين للمأكولات السورية في القاهرة — شاورما صاج وعربي، مشاوي عالفحم، فتات دمشقية بالسمن البلدي، مقبلات شامية، وصواني العيلة.",
   openGraph: {
-    title: "منيو مطعم الياسمين الدمشقي الكامل",
-    description:
-      "شاورما عالصاج • مشاوي شامي عالفحم • فتات بالسمن البلدي • مقبلات سورية • وجبات عائلية",
-    images: [{ url: "/og-menu.jpg?v=1", width: 1200, height: 630 }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    images: ["/og-menu.jpg?v=1"],
+    title: "المنيو السوري الكامل | مطعم الياسمين Alyasmin",
+    description: "أصالة المذاق السوري في كل طبق — اطلب الآن توصيل سريع 01010400507.",
+    images: [{ url: "/og-menu.jpg", width: 1200, height: 630 }],
   },
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function MenuPage() {
   const data = await publicDB();
+  const available = data.products.filter((p) => p.isAvailable);
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* LOMORA Dark Walnut Page Header */}
-      <section className="relative bg-[#18110C] text-white rounded-b-[32px] py-10 sm:py-14 overflow-hidden">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-[0.04]"
-          style={{
-            backgroundImage: 'url("/images/shawarma-pattern-gold.webp")',
-            backgroundSize: "460px 460px",
-          }}
-        />
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+    <div className="space-y-8 pb-14">
+      {/* Alyasmin Original Yellow Shawarma-Pattern Hero Banner */}
+      <section
+        className="relative bg-[#E8A514] text-[#18110C] rounded-b-[32px] sm:rounded-b-[40px] py-10 sm:py-14 px-4 sm:px-6 overflow-hidden shadow-md"
+        style={{
+          backgroundImage: 'url("/images/shawarma-pattern-gold.webp")',
+          backgroundSize: "440px 440px",
+        }}
+      >
+        <div className="relative z-10 mx-auto max-w-7xl flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#E8A818]/35 bg-[#E8A818]/10 px-3 py-1 text-xs font-extrabold text-[#E8A818]">
-              <JasmineDiamondIcon className="w-3 h-3" />
-              <span dir="ltr" className="font-en">FULL DAMASCENE MENU</span>
-            </div>
-            <h1 className="text-2xl sm:text-4xl font-black text-white">
-              منيو مطعم الياسمين الكامل
+            <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white drop-shadow-[0_3px_0_#18110C]">
+              منيو الياسمين السوري
             </h1>
-            <p className="text-xs sm:text-sm text-white/75 max-w-xl">
-              اختر أطباقك المفضلة من الشاورما السورية والمشاوي والفتات والمقبلات، وحدد الحجم والإضافات ليصلك طلبك ساخناً وطازجاً.
+            <p className="text-xs sm:text-sm font-bold text-[#18110C]/90 max-w-xl leading-relaxed">
+              اختر أطباقك الشامية المفضلة من الشاورما عالصاج، المشاوي على الفحم، الفتات الدمشقية بالسمن البلدي، والمقبلات الطازجة.
             </p>
           </div>
 
           <a
             href="tel:01010400507"
-            className="self-start sm:self-auto inline-flex items-center gap-2 rounded-full bg-[#E8A818] text-[#18110C] font-black text-xs px-5 py-2.5 shadow"
+            className="self-start sm:self-auto rounded-full bg-[#18110C] text-[#E8A514] font-black text-xs px-5 py-2.5 shadow-md"
           >
-            <PhoneIcon className="w-3.5 h-3.5" />
-            <span>للطلب السريع:</span>
-            <span dir="ltr" className="font-en">01010400507</span>
+            طلب سريع: <span dir="ltr" className="font-en">01010400507</span>
           </a>
         </div>
       </section>
 
-      <MenuClient categories={data.categories} products={data.products} />
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <MenuClient categories={data.categories} products={available} />
+      </div>
     </div>
   );
 }

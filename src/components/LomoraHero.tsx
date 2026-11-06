@@ -2,62 +2,56 @@
 
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { ArrowLeftIcon, ArrowRightIcon, ArrowUpLeftIcon, JasmineDiamondIcon } from "./icons";
+import { useStore } from "./store";
+import { ArrowLeftIcon, ArrowRightIcon, ArrowUpLeftIcon, BagIcon, CloseIcon } from "./icons";
 
 interface HeroSlide {
   id: string;
   titleAr: string;
-  subtitleEn: string;
   image: string;
-  pillTopRight: string;
-  pillBottomLeft: string;
-  priceLabel: string;
-  categoryHref: string;
+  pillTop: string;
+  pillBottom: string;
 }
 
 const HERO_SLIDES: HeroSlide[] = [
   {
     id: "shawarma-arabi",
-    titleAr: "شاورما عربي دمشقي عالصاج",
-    subtitleEn: "Damascene Arabic Shawarma",
+    titleAr: "شاورما عربي دمشقي",
     image: "/images/hero/hero-shawarma-arabi.webp",
-    pillTopRight: "تتبيلة دمشقية ٢٤ ساعة",
-    pillBottomLeft: "خبز صاج طازج وثومية",
-    priceLabel: "145 ج.م",
-    categoryHref: "/menu#cat-shawarma",
+    pillTop: "تتبيلة دمشقية ٢٤ ساعة",
+    pillBottom: "خبز صاج طازج وثومية",
   },
   {
     id: "mixed-grill",
-    titleAr: "مشاوي مشكلة شامي عالفحم",
-    subtitleEn: "Charcoal Syrian Mixed Grill",
+    titleAr: "مشاوي شامي عالفحم",
     image: "/images/hero/hero-mixed-grill.webp",
-    pillTopRight: "لحم بلدي مشوي عالفحم",
-    pillBottomLeft: "كباب حلبي وشيش طاووق",
-    priceLabel: "240 ج.م",
-    categoryHref: "/menu#cat-grills",
+    pillTop: "لحم بلدي مشوي عالفحم",
+    pillBottom: "كباب حلبي وشيش طاووق",
   },
   {
     id: "fatteh-shawarma",
-    titleAr: "فتة شاورما بالسمن البلدي",
-    subtitleEn: "Ghee & Almond Shawarma Fatteh",
+    titleAr: "فتة شاورما بالسمن",
     image: "/images/hero/hero-fatteh-shawarma.webp",
-    pillTopRight: "طشة سمن بلدي ولوز",
-    pillBottomLeft: "أرز بسمتي وخبز محمص",
-    priceLabel: "135 ج.م",
-    categoryHref: "/menu#cat-fatteh",
+    pillTop: "طشة سمن بلدي ولوز",
+    pillBottom: "أرز بسمتي وخبز محمص",
   },
 ];
 
-const HERO_PILL_TAGS = [
-  { ar: "شاورما عالصاج", en: "Shawarma" },
-  { ar: "مشاوي شامية", en: "Charcoal Grill" },
-  { ar: "فتات دمشقية", en: "Syrian Fatteh" },
-  { ar: "مقبلات أصلية", en: "Levantine Mezze" },
-  { ar: "وجبات عائلية", en: "Family Feasts" },
+const HERO_PILL_TAGS_ROW1 = ["شاورما عالصاج", "مشاوي شامية", "فتات دمشقية"];
+const HERO_PILL_TAGS_ROW2 = ["مقبلات أصلية", "ولائم العيلة"];
+
+const NAV_LINKS = [
+  { href: "/", label: "الرئيسية" },
+  { href: "/menu", label: "المنيو" },
+  { href: "/offers", label: "العروض" },
+  { href: "/about", label: "عن الياسمين" },
+  { href: "/contact", label: "تواصل معنا" },
 ];
 
 export default function LomoraHero() {
   const [activeIdx, setActiveIdx] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { count } = useStore();
   const touchStartX = useRef<number | null>(null);
 
   const current = HERO_SLIDES[activeIdx];
@@ -80,79 +74,122 @@ export default function LomoraHero() {
     <section
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      className="relative w-full bg-[#18110C] text-white rounded-b-[32px] sm:rounded-b-[44px] overflow-hidden shadow-[0_24px_60px_-20px_rgba(24,17,12,0.55)]"
+      className="relative w-full bg-[#E8A514] text-[#18110C] rounded-b-[32px] lg:rounded-b-[42px] overflow-hidden shadow-[0_24px_60px_-20px_rgba(24,17,12,0.3)]"
+      style={{
+        backgroundImage: 'url("/images/shawarma-pattern-gold.webp")',
+        backgroundSize: "480px 480px",
+      }}
     >
-      {/* Subtle Brand Shawarma Pattern Watermark in Background */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.045]"
-        style={{
-          backgroundImage: 'url("/images/shawarma-pattern-gold.webp")',
-          backgroundSize: "460px 460px",
-        }}
-      />
-
-      {/* Warm Golden Ambient Glow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-24 left-1/3 w-[480px] h-[480px] rounded-full bg-[#E8A818]/15 blur-[110px]"
-      />
-
       {/* =====================================================================
-          MOBILE LOMORA HERO (Matches `media_1793973625835_2c629f08.jpg` & `Mobile` column)
+          MOBILE LOMORA HERO (Exact 1:1 Layout of `media_1793973625835_2c629f08.jpg`
+          with Alyasmin's Original Yellow Shawarma Pattern & White Shadowed Logo)
          ===================================================================== */}
-      <div className="lg:hidden relative z-10 flex flex-col justify-between min-h-[calc(100svh-56px)] pb-6">
-        {/* Top Atmospheric Photo Stage with Stacked Headline & 2 Floating White Callout Pills */}
-        <div className="relative w-full min-h-[410px] sm:min-h-[460px] flex flex-col justify-between p-4 sm:p-6 overflow-hidden">
-          {/* Dish Photo Background with Warm Vignette */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={current.image}
-            alt={current.titleAr}
-            className="absolute inset-0 w-full h-full object-cover object-center transition-all duration-500"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-b from-[#18110C]/85 via-[#18110C]/30 to-[#18110C]"
-          />
+      <div className="lg:hidden relative z-10 flex flex-col">
+        {/* Top Part: Yellow Shawarma Pattern + Embedded Navbar + 4-Line Headline + Dish Stage with 2 White Callout Pills */}
+        <div className="relative px-4 pt-4 pb-5">
+          {/* Top Embedded Bar: Flower Emblem + Alyasmin Logo on one side, 2-Line Menu Icon (`=`) on the other */}
+          <div className="flex items-center justify-between gap-2 mb-4">
+            <Link href="/" className="flex items-center gap-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logo-horizontal-shadow.png"
+                alt="مطعم الياسمين"
+                className="h-10 w-auto object-contain"
+              />
+            </Link>
 
-          {/* Top Stacked Editorial Headline */}
-          <div className="relative z-10 pt-1 space-y-1.5">
-            <div dir="ltr" className="font-en text-left text-[22px] sm:text-3xl font-extrabold tracking-tight leading-[1.08] text-white drop-shadow-sm">
-              <div>AUTHENTIC SYRIAN TASTE.</div>
-              <div>DAMASCENE CRAFT.</div>
-              <div className="text-[#E8A818]">LASTING FLAVOR.</div>
+            <div className="flex items-center gap-2">
+              {count > 0 && (
+                <Link
+                  href="/cart"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-[#18110C] text-[#E8A514] px-3 py-1.5 text-xs font-black shadow"
+                >
+                  <BagIcon className="w-3.5 h-3.5" />
+                  <span>{count}</span>
+                </Link>
+              )}
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen((v) => !v)}
+                aria-label="القائمة"
+                className="w-10 h-10 rounded-full bg-[#18110C]/15 hover:bg-[#18110C]/25 text-[#18110C] grid place-items-center transition"
+              >
+                {mobileMenuOpen ? (
+                  <CloseIcon className="w-5 h-5" />
+                ) : (
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+                    <line x1="4" y1="9" x2="20" y2="9" />
+                    <line x1="4" y1="15" x2="20" y2="15" />
+                  </svg>
+                )}
+              </button>
             </div>
-            <h1 className="text-right text-lg sm:text-xl font-black text-white/95 leading-snug">
-              أصالة المذاق السوري في كل طبق.
-            </h1>
           </div>
 
-          {/* 2 Floating White Callout Pills over the Hero Dish (Exact match to LOMORA Mobile Reference) */}
-          <div className="relative z-10 my-auto py-8 flex flex-col gap-10 pointer-events-none">
-            {/* Right/Top Callout Pill */}
-            <div className="self-start animate-float-pill">
-              <div className="relative inline-flex items-center gap-2 rounded-2xl bg-white text-[#18110C] px-3.5 py-2 shadow-[0_12px_28px_rgba(0,0,0,0.35)]">
-                <span className="w-2 h-2 rounded-full bg-[#E8A818]" />
-                <span className="text-[11px] font-extrabold">{current.pillTopRight}</span>
-                <span className="absolute -bottom-1 right-3 w-2.5 h-2.5 rounded-full bg-white shadow" />
+          {/* Mobile Drawer if Open */}
+          {mobileMenuOpen && (
+            <div className="mb-4 rounded-2xl bg-[#18110C] text-white p-3.5 space-y-2 shadow-2xl">
+              <div className="grid grid-cols-2 gap-2">
+                {NAV_LINKS.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="rounded-xl bg-white/10 hover:bg-[#E8A514] hover:text-[#18110C] px-3 py-2 text-xs font-extrabold transition"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+                <Link
+                  href="/delivery"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="rounded-xl bg-[#E8A514] text-[#18110C] px-3 py-2 text-xs font-black text-center"
+                >
+                  اطلب الآن • 01010400507
+                </Link>
+              </div>
+            </div>
+          )}
+
+          {/* 4-Line Stacked Headline (Matches `MODERN DESIGNS. / EFFORTLESS / COMFORT. / LASTING QUALITY.`) */}
+          <h1 className="text-[26px] sm:text-3xl font-black leading-[1.16] tracking-tight text-[#18110C] space-y-0.5 mb-4">
+            <span className="block">أصالة المذاق السوري.</span>
+            <span className="block text-white drop-shadow-[0_2px_0_#18110C]">شاورما عالصاج</span>
+            <span className="block text-white drop-shadow-[0_2px_0_#18110C]">ومشاوي شامية.</span>
+            <span className="block">طعم الشام الأصيل.</span>
+          </h1>
+
+          {/* Center Hero Dish Visual Stage with the 2 Floating White Callout Pills */}
+          <div className="relative w-full aspect-[4/3] rounded-[24px] overflow-hidden shadow-xl border-2 border-white/50 bg-[#23170E]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={current.image}
+              alt={current.titleAr}
+              className="w-full h-full object-cover transition-all duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#18110C]/55 via-transparent to-[#18110C]/15" />
+
+            {/* Upper-Right Floating White Callout Pill (Exact LOMORA pill + white dot) */}
+            <div className="absolute top-5 right-4 z-10 animate-float-pill">
+              <div className="relative rounded-xl bg-white text-[#18110C] px-3.5 py-2 text-[11px] font-extrabold shadow-[0_10px_25px_rgba(0,0,0,0.3)]">
+                {current.pillTop}
+                <span className="absolute -bottom-1.5 left-2.5 w-2.5 h-2.5 rounded-full bg-white shadow" />
               </div>
             </div>
 
-            {/* Left/Bottom Callout Pill */}
-            <div className="self-end animate-float-pill" style={{ animationDelay: "1.2s" }}>
-              <div className="relative inline-flex items-center gap-2 rounded-2xl bg-white text-[#18110C] px-3.5 py-2 shadow-[0_12px_28px_rgba(0,0,0,0.35)]">
-                <span className="w-2 h-2 rounded-full bg-[#18110C]" />
-                <span className="text-[11px] font-extrabold">{current.pillBottomLeft}</span>
-                <span className="absolute -top-1 left-3 w-2.5 h-2.5 rounded-full bg-white shadow" />
+            {/* Lower-Left Floating White Callout Pill (Exact LOMORA pill + white dot) */}
+            <div className="absolute bottom-6 left-4 z-10 animate-float-pill" style={{ animationDelay: "1.2s" }}>
+              <div className="relative rounded-xl bg-white text-[#18110C] px-3.5 py-2 text-[11px] font-extrabold shadow-[0_10px_25px_rgba(0,0,0,0.3)]">
+                {current.pillBottom}
+                <span className="absolute -top-1.5 right-2.5 w-2.5 h-2.5 rounded-full bg-white shadow" />
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom Dark Walnut Stage: 3 Square Thumbnails + Oval Arrow Switchers + Description + 5 Outline Pill Tags */}
-        <div className="px-4 sm:px-6 space-y-4">
-          {/* 3 Square Dish Thumbnails */}
+        {/* Lower Part of Mobile Hero: 3 Square Thumbnails + `<-` `->` Oval Arrows + 3-Line Paragraph + 2 Rows of Pill Tags */}
+        <div className="px-4 pb-6 pt-1 space-y-4">
+          {/* 3 Square Rounded Thumbnails */}
           <div className="grid grid-cols-3 gap-2.5">
             {HERO_SLIDES.map((slide, idx) => {
               const active = idx === activeIdx;
@@ -161,20 +198,20 @@ export default function LomoraHero() {
                   key={slide.id}
                   type="button"
                   onClick={() => setActiveIdx(idx)}
-                  className={`group relative aspect-square rounded-2xl overflow-hidden transition-all ${
+                  className={`group relative aspect-square rounded-[18px] overflow-hidden transition-all ${
                     active
-                      ? "ring-2 ring-[#E8A818] scale-[1.02] shadow-lg"
-                      : "opacity-70 hover:opacity-100 border border-white/15"
+                      ? "ring-3 ring-[#18110C] shadow-lg scale-[1.02]"
+                      : "opacity-80 hover:opacity-100 ring-1 ring-white/50"
                   }`}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={slide.image}
                     alt={slide.titleAr}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent p-1.5">
-                    <div className="text-[10px] font-extrabold text-white truncate text-right">
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent p-1.5">
+                    <div className="text-[10px] font-extrabold text-white truncate text-center">
                       {slide.titleAr}
                     </div>
                   </div>
@@ -183,92 +220,109 @@ export default function LomoraHero() {
             })}
           </div>
 
-          {/* Centered Oval Pill Arrow Buttons (`<-` `->` from LOMORA reference) */}
+          {/* Centered Oval Pill Arrow Buttons `( <- ) ( -> )` */}
           <div className="flex items-center justify-center gap-2.5" dir="ltr">
             <button
               type="button"
               onClick={prevSlide}
-              aria-label="الطبق السابق"
-              className="w-12 h-7 rounded-full border border-white/25 hover:border-[#E8A818] hover:text-[#E8A818] text-white/85 grid place-items-center transition active:scale-95"
+              aria-label="السابق"
+              className="w-12 h-7 rounded-full border border-[#18110C]/40 bg-[#18110C]/10 hover:bg-[#18110C] hover:text-[#E8A514] text-[#18110C] grid place-items-center transition active:scale-95"
             >
               <ArrowLeftIcon className="w-3.5 h-3.5" />
             </button>
             <button
               type="button"
               onClick={nextSlide}
-              aria-label="الطبق التالي"
-              className="w-12 h-7 rounded-full border border-white/25 hover:border-[#E8A818] hover:text-[#E8A818] text-white/85 grid place-items-center transition active:scale-95"
+              aria-label="التالي"
+              className="w-12 h-7 rounded-full border border-[#18110C]/40 bg-[#18110C] text-[#E8A514] grid place-items-center transition active:scale-95"
             >
               <ArrowRightIcon className="w-3.5 h-3.5" />
             </button>
           </div>
 
-          {/* Editorial Description Paragraph */}
-          <p className="text-xs sm:text-sm text-white/75 leading-relaxed text-right">
-            نحضّر أطباقنا الشامية يومياً من أجود اللحوم الطازجة والتتبيلات الدمشقية العريقة، لنقدم لك مذاق الشام الأصيل ودفء الضيافة السورية في قلب القاهرة.
+          {/* 3-Line Editorial Paragraph */}
+          <p className="text-xs leading-relaxed font-bold text-[#18110C]/90">
+            نحضّر أطباقنا الشامية يومياً من أجود اللحوم الطازجة والتتبيلات الدمشقية العريقة، لنقدم لك مذاق الشام الأصيل ودفء الضيافة السورية في كل لقمة.
           </p>
 
-          {/* 5 Subtle Outline Pill Tags (2 rows matching LOMORA reference) */}
-          <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-            {HERO_PILL_TAGS.map((t) => (
-              <span
-                key={t.en}
-                className="rounded-full border border-white/15 bg-white/[0.03] px-3 py-1 text-[11px] font-bold text-white/75"
-              >
-                {t.ar}
-              </span>
-            ))}
-          </div>
-
-          {/* Paired Action Buttons (`شاهد المنيو` + `اطلب الآن`) */}
-          <div className="grid grid-cols-2 gap-2.5 pt-1">
-            <Link
-              href="/menu"
-              className="rounded-full bg-[#E8A818] hover:bg-[#D99B10] text-[#18110C] font-black text-xs py-3 text-center shadow-lg transition active:scale-95"
-            >
-              شاهد المنيو
-            </Link>
-            <Link
-              href="/delivery"
-              className="rounded-full bg-white hover:bg-[#FAF6EC] text-[#18110C] font-black text-xs py-3 flex items-center justify-center gap-1.5 transition active:scale-95"
-            >
-              <span>اطلب الآن</span>
-              <ArrowUpLeftIcon className="w-3.5 h-3.5" />
-            </Link>
+          {/* 2 Rows of Outline Pill Tags (3 on Row 1, 2 on Row 2 — Exact match to `media_1793973625835_2c629f08.jpg`) */}
+          <div className="space-y-2 pt-0.5">
+            <div className="flex flex-wrap items-center gap-2">
+              {HERO_PILL_TAGS_ROW1.map((tag) => (
+                <Link
+                  key={tag}
+                  href="/menu"
+                  className="rounded-full border border-[#18110C]/30 bg-white/85 px-3.5 py-1 text-[11px] font-extrabold text-[#18110C] shadow-2xs"
+                >
+                  {tag}
+                </Link>
+              ))}
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              {HERO_PILL_TAGS_ROW2.map((tag) => (
+                <Link
+                  key={tag}
+                  href="/menu"
+                  className="rounded-full border border-[#18110C]/30 bg-white/85 px-3.5 py-1 text-[11px] font-extrabold text-[#18110C] shadow-2xs"
+                >
+                  {tag}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
       {/* =====================================================================
-          DESKTOP LOMORA HERO (`Web` column in `media_1793973652900_eb509023.jpg`)
+          DESKTOP (`Web`) LOMORA HERO (Exact 1:1 Split-Stage Architecture of
+          `media_1793973652900_eb509023.jpg` with Alyasmin Yellow & Shawarma Pattern)
          ===================================================================== */}
-      <div className="hidden lg:grid lg:grid-cols-12 mx-auto max-w-7xl px-8 pt-6 pb-12 gap-8 items-stretch relative z-10">
-        {/* Right/Start Editorial Column (6 cols) */}
-        <div className="lg:col-span-6 flex flex-col justify-between py-4 z-20">
-          {/* Stacked Headline */}
-          <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#E8A818]/35 bg-[#E8A818]/10 px-3.5 py-1 text-xs font-extrabold text-[#E8A818]">
-              <JasmineDiamondIcon className="w-3 h-3" />
-              <span>مطعم الياسمين للمأكولات السورية • القاهرة</span>
-            </div>
+      <div className="hidden lg:grid lg:grid-cols-12 min-h-[670px] relative z-10">
+        {/* Right/Start Solid Brand Stage (6 cols) — Alyasmin Yellow + Shawarma Pattern */}
+        <div className="lg:col-span-6 flex flex-col justify-between pr-10 xl:pr-14 pl-6 py-7 relative z-20">
+          {/* Top Embedded Pill Navbar (`[ ✿  الرئيسية  المنيو  العروض  عن الياسمين  تواصل معنا ]`) */}
+          <div className="flex items-center">
+            <nav className="inline-flex items-center gap-5 rounded-full border border-[#18110C]/20 bg-[#18110C] text-white px-5 py-2.5 shadow-lg">
+              <Link href="/" className="shrink-0 flex items-center gap-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logo-emblem.png"
+                  alt="زهرة الياسمين"
+                  className="w-6 h-6 object-contain"
+                />
+              </Link>
+              {NAV_LINKS.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="text-xs font-extrabold text-white/90 hover:text-[#E8A514] transition"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
 
-            <div
-              dir="ltr"
-              className="font-en text-left text-4xl xl:text-[44px] font-extrabold tracking-tight leading-[1.08] text-white"
-            >
-              <div>AUTHENTIC SYRIAN TASTE.</div>
-              <div>EFFORTLESS WARMTH.</div>
-              <div className="text-[#E8A818]">LASTING QUALITY.</div>
-            </div>
-
-            <h1 className="text-2xl xl:text-3xl font-black text-white/95 leading-snug">
-              أصالة المذاق السوري في كل طبق — طعم الشام على أصوله.
+          {/* Official Alyasmin Shadowed Logo + 4-Line Stacked Headline */}
+          <div className="my-auto pt-6 pb-4 space-y-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo-horizontal-shadow.png"
+              alt="الياسمين للمأكولات السورية"
+              className="h-16 xl:h-20 w-auto object-contain"
+            />
+            <h1 className="text-4xl xl:text-[44px] font-black leading-[1.14] tracking-tight text-[#18110C]">
+              <span className="block">أصالة المذاق السوري.</span>
+              <span className="block text-white drop-shadow-[0_3px_0_#18110C]">
+                شاورما عالصاج ومشاوي.
+              </span>
+              <span className="block">طعم الشام في كل لقمة.</span>
             </h1>
           </div>
 
-          {/* Overlapping 3 Square Dish Thumbnails + Oval Arrow Switchers */}
-          <div className="my-7 space-y-3.5 lg:-ml-16 relative z-30">
-            <div className="grid grid-cols-3 gap-3.5 max-w-[490px]">
+          {/* 3 Square Dish Thumbnails Straddling the Seam + Centered Oval Arrow Switchers `( <- ) ( -> )` */}
+          <div className="relative z-30 lg:-ml-24 xl:-ml-28 my-2">
+            <div className="grid grid-cols-3 gap-4 max-w-[490px]">
               {HERO_SLIDES.map((slide, idx) => {
                 const active = idx === activeIdx;
                 return (
@@ -276,10 +330,10 @@ export default function LomoraHero() {
                     key={slide.id}
                     type="button"
                     onClick={() => setActiveIdx(idx)}
-                    className={`group relative aspect-square rounded-[22px] overflow-hidden text-right transition-all duration-300 ${
+                    className={`group relative aspect-square rounded-[22px] overflow-hidden transition-all duration-300 ${
                       active
-                        ? "ring-2 ring-[#E8A818] shadow-[0_18px_40px_rgba(0,0,0,0.55)] -translate-y-1"
-                        : "opacity-75 hover:opacity-100 border border-white/15"
+                        ? "ring-3 ring-[#18110C] shadow-[0_20px_45px_rgba(0,0,0,0.45)] -translate-y-1"
+                        : "opacity-85 hover:opacity-100 ring-2 ring-white/60 shadow-md"
                     }`}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -288,104 +342,127 @@ export default function LomoraHero() {
                       alt={slide.titleAr}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-2.5">
-                      <div className="text-xs font-extrabold text-white truncate">
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent p-2.5">
+                      <div className="text-xs font-extrabold text-white truncate text-right">
                         {slide.titleAr}
                       </div>
-                      <div className="text-[11px] font-bold text-[#E8A818]">{slide.priceLabel}</div>
                     </div>
                   </button>
                 );
               })}
             </div>
 
-            {/* Oval Arrow Switchers (`<-` `->`) + Primary CTA Buttons */}
-            <div className="flex items-center justify-between max-w-[490px] pt-1">
-              <div className="flex items-center gap-2.5">
-                <Link
-                  href="/menu"
-                  className="rounded-full bg-[#E8A818] hover:bg-[#D99B10] text-[#18110C] font-black text-xs px-6 py-2.5 shadow-lg transition active:scale-95"
-                >
-                  شاهد المنيو
-                </Link>
-                <Link
-                  href="/delivery"
-                  className="rounded-full bg-white hover:bg-[#FAF6EC] text-[#18110C] font-black text-xs px-5 py-2.5 flex items-center gap-1.5 transition active:scale-95"
-                >
-                  <span>اطلب الآن</span>
-                  <ArrowUpLeftIcon className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-
-              <div className="flex items-center gap-2" dir="ltr">
-                <button
-                  type="button"
-                  onClick={prevSlide}
-                  aria-label="الطبق السابق"
-                  className="w-12 h-7 rounded-full border border-white/25 hover:border-[#E8A818] hover:text-[#E8A818] text-white/85 grid place-items-center transition"
-                >
-                  <ArrowLeftIcon className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={nextSlide}
-                  aria-label="الطبق التالي"
-                  className="w-12 h-7 rounded-full border border-white/25 hover:border-[#E8A818] hover:text-[#E8A818] text-white/85 grid place-items-center transition"
-                >
-                  <ArrowRightIcon className="w-3.5 h-3.5" />
-                </button>
-              </div>
+            {/* Centered Oval Pill Arrow Switchers `( <- ) ( -> )` directly below the 3 thumbnails */}
+            <div className="flex items-center justify-center gap-3 max-w-[490px] mt-3.5" dir="ltr">
+              <button
+                type="button"
+                onClick={prevSlide}
+                aria-label="السابق"
+                className="w-12 h-7 rounded-full border border-[#18110C]/45 bg-white/80 hover:bg-[#18110C] hover:text-[#E8A514] text-[#18110C] grid place-items-center transition shadow-xs"
+              >
+                <ArrowLeftIcon className="w-3.5 h-3.5" />
+              </button>
+              <button
+                type="button"
+                onClick={nextSlide}
+                aria-label="التالي"
+                className="w-12 h-7 rounded-full border border-[#18110C] bg-[#18110C] text-[#E8A514] grid place-items-center transition shadow-xs"
+              >
+                <ArrowRightIcon className="w-3.5 h-3.5" />
+              </button>
             </div>
           </div>
 
-          {/* Bottom Editorial Description */}
-          <p className="text-sm text-white/70 max-w-md leading-relaxed">
-            نصنع الشاورما والمشاوي والفتات الدمشقية يومياً بمكونات طازجة وتتبيلات شامية أصيلة، لنمنحك طعم الشام الدافئ في كل لقمة.
+          {/* Bottom 3-Line Editorial Description Paragraph */}
+          <p className="text-sm font-bold text-[#18110C]/90 max-w-md leading-relaxed pt-2">
+            نحضّر أطباقنا الشامية يومياً من أجود اللحوم الطازجة والتتبيلات الدمشقية العريقة، لنقدم لك مذاق الشام الأصيل ودفء الضيافة السورية في قلب القاهرة.
           </p>
         </div>
 
-        {/* Left/End Atmospheric Dish Photo Stage (6 cols) */}
-        <div className="lg:col-span-6 relative min-h-[540px] rounded-[28px] overflow-hidden border border-white/10 shadow-2xl flex flex-col justify-between p-7">
+        {/* Left/End Full-Bleed Atmospheric Dish Stage (6 cols) */}
+        <div className="lg:col-span-6 relative min-h-[670px] flex flex-col justify-between p-8 xl:p-10 overflow-hidden bg-[#23170E]">
+          {/* Full-Bleed Dish Photo */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={current.image}
             alt={current.titleAr}
             className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
           />
+          {/* Subtle Warm Blend Gradient on the Right Seam + Bottom Vignette */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-t from-[#18110C]/90 via-transparent to-[#18110C]/25"
+            className="absolute inset-0 bg-gradient-to-l from-[#E8A514]/25 via-transparent to-black/35"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-t from-[#18110C]/80 via-transparent to-[#18110C]/20"
           />
 
-          {/* Top Floating White Callout Pill */}
-          <div className="relative z-10 self-start mt-16 animate-float-pill">
-            <div className="relative inline-flex items-center gap-2.5 rounded-2xl bg-white text-[#18110C] px-4 py-2.5 shadow-[0_16px_36px_rgba(0,0,0,0.4)]">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#E8A818]" />
-              <span className="text-xs font-extrabold">{current.pillTopRight}</span>
-              <span className="absolute -bottom-1.5 right-4 w-3 h-3 rounded-full bg-white shadow" />
-            </div>
-          </div>
-
-          {/* Lower Floating White Callout Pill */}
-          <div className="relative z-10 self-center my-auto mr-24 animate-float-pill" style={{ animationDelay: "1.4s" }}>
-            <div className="relative inline-flex items-center gap-2.5 rounded-2xl bg-white text-[#18110C] px-4 py-2.5 shadow-[0_16px_36px_rgba(0,0,0,0.4)]">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#18110C]" />
-              <span className="text-xs font-extrabold">{current.pillBottomLeft}</span>
-              <span className="absolute -top-1.5 left-4 w-3 h-3 rounded-full bg-white shadow" />
-            </div>
-          </div>
-
-          {/* Bottom 2 Rows of Subtle Outline Pill Tags inside Photo Stage (Exact match to LOMORA Desktop Reference) */}
-          <div className="relative z-10 flex flex-wrap items-center justify-end gap-2 pt-6">
-            {HERO_PILL_TAGS.map((t) => (
+          {/* Top-Left Corner: White Pill CTA Button (`Contact us ↗` -> `اطلب الآن ↗`) + Cart Badge */}
+          <div className="relative z-20 flex items-center justify-end gap-3">
+            {count > 0 && (
               <Link
-                key={t.en}
-                href="/menu"
-                className="rounded-full border border-white/25 bg-black/35 backdrop-blur-md hover:border-[#E8A818] hover:text-[#E8A818] px-3.5 py-1.5 text-xs font-bold text-white/90 transition"
+                href="/cart"
+                className="inline-flex items-center gap-2 rounded-full bg-[#E8A514] text-[#18110C] px-4 py-2 text-xs font-black shadow-lg"
               >
-                {t.ar}
+                <BagIcon className="w-4 h-4" />
+                <span>السلة ({count})</span>
               </Link>
-            ))}
+            )}
+            <Link
+              href="/menu"
+              className="inline-flex items-center gap-3 rounded-full bg-white hover:bg-[#FFF9EA] text-[#18110C] pr-5 pl-1.5 py-1.5 text-xs font-black shadow-xl transition group"
+            >
+              <span>اطلب الآن</span>
+              <span className="w-8 h-8 rounded-full bg-[#18110C] group-hover:bg-[#E8A514] text-white group-hover:text-[#18110C] grid place-items-center transition">
+                <ArrowUpLeftIcon className="w-4 h-4" />
+              </span>
+            </Link>
+          </div>
+
+          {/* Center Floating White Callout Pills over the Dish (Exact match to LOMORA Web Reference) */}
+          <div className="relative z-20 my-auto flex flex-col gap-20 pr-8 pl-4 pointer-events-none">
+            {/* Upper Floating White Callout Pill */}
+            <div className="self-end ml-8 animate-float-pill">
+              <div className="relative rounded-xl bg-white text-[#18110C] px-4 py-2.5 text-xs font-extrabold shadow-[0_14px_34px_rgba(0,0,0,0.4)]">
+                {current.pillTop}
+                <span className="absolute -bottom-1.5 right-3 w-3 h-3 rounded-full bg-white shadow" />
+              </div>
+            </div>
+
+            {/* Lower Floating White Callout Pill */}
+            <div className="self-end ml-14 animate-float-pill" style={{ animationDelay: "1.3s" }}>
+              <div className="relative rounded-xl bg-white text-[#18110C] px-4 py-2.5 text-xs font-extrabold shadow-[0_14px_34px_rgba(0,0,0,0.4)]">
+                {current.pillBottom}
+                <span className="absolute -top-1.5 right-3 w-3 h-3 rounded-full bg-white shadow" />
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom-Left 2 Rows of 5 Outline Pill Tags (3 on top row, 2 on bottom row — Exact match to LOMORA Web Reference) */}
+          <div className="relative z-20 flex flex-col items-end gap-2 pt-4">
+            <div className="flex flex-wrap items-center justify-end gap-2">
+              {HERO_PILL_TAGS_ROW1.map((tag) => (
+                <Link
+                  key={tag}
+                  href="/menu"
+                  className="rounded-full border border-white/30 bg-black/40 backdrop-blur-md hover:bg-[#E8A514] hover:border-[#E8A514] hover:text-[#18110C] px-4 py-1.5 text-xs font-bold text-white transition"
+                >
+                  {tag}
+                </Link>
+              ))}
+            </div>
+            <div className="flex flex-wrap items-center justify-end gap-2">
+              {HERO_PILL_TAGS_ROW2.map((tag) => (
+                <Link
+                  key={tag}
+                  href="/menu"
+                  className="rounded-full border border-white/30 bg-black/40 backdrop-blur-md hover:bg-[#E8A514] hover:border-[#E8A514] hover:text-[#18110C] px-4 py-1.5 text-xs font-bold text-white transition"
+                >
+                  {tag}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </div>
