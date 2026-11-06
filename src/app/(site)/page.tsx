@@ -3,6 +3,7 @@ import { publicDB } from "@/lib/db";
 import LomoraHero from "@/components/LomoraHero";
 import TheEditShowcase from "@/components/TheEditShowcase";
 import ChessboardBento from "@/components/ChessboardBento";
+import StoryGallery from "@/components/StoryGallery";
 import { JasmineDiamondIcon } from "@/components/icons";
 
 export default async function HomePage() {
@@ -77,31 +78,9 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* Warm Atmospheric Culinary Photograph with Bottom Carousel Dots (`• • • ● • •`) */}
+          {/* Interactive Swipeable & Auto-Sliding Culinary Carousel */}
           <div className="lg:col-span-6">
-            <div className="relative aspect-square sm:aspect-[5/4] rounded-[24px] sm:rounded-[28px] overflow-hidden bg-[#23170E] shadow-[0_20px_50px_-20px_rgba(24,17,12,0.25)]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/images/hero/story-syrian-table.webp"
-                alt="سفرة مطعم الياسمين للمأكولات السورية"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-
-              {/* Bottom Centered Indicator Dots (Exact match to LOMORA Story Image dots) */}
-              <div className="absolute inset-x-0 bottom-4 flex items-center justify-center gap-2">
-                {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((dot) => (
-                  <span
-                    key={dot}
-                    className={`rounded-full transition-all ${
-                      dot === 3
-                        ? "w-2.5 h-2.5 bg-white shadow"
-                        : "w-2 h-2 bg-white/45"
-                    }`}
-                  />
-                ))}
-              </div>
-            </div>
+            <StoryGallery />
           </div>
         </div>
       </section>
