@@ -20,7 +20,7 @@ export default async function HomePage() {
   ];
 
   return (
-    <div className="bg-white w-full max-w-full overflow-x-hidden">
+    <div className="bg-white w-full max-w-full overflow-x-clip">
       {/* =====================================================================
           1. LOMORA SPLIT-STAGE ATMOSPHERIC HERO (Web & Mobile)
              Alyasmin Original Golden-Yellow (#E8A514) + Shawarma Pattern

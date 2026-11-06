@@ -14,7 +14,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   return (
     <StoreProvider branches={data.branches}>
       <Header />
-      <main className="flex-1 w-full max-w-full min-w-0 overflow-x-hidden">{children}</main>
+      <main className="flex-1 w-full max-w-full min-w-0">{children}</main>
       <BranchPicker />
       <MobileCartBar />
       <MenuQrModal />
