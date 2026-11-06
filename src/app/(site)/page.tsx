@@ -21,7 +21,7 @@ export default async function HomePage() {
   ];
 
   return (
-    <div className="bg-white">
+    <div className="bg-white w-full max-w-full overflow-x-hidden">
       {/* =====================================================================
           1. LOMORA SPLIT-STAGE ATMOSPHERIC HERO (Web & Mobile)
              Alyasmin Original Golden-Yellow (#E8A514) + Shawarma Pattern
@@ -37,8 +37,8 @@ export default async function HomePage() {
       {/* =====================================================================
           3A. MARQUEE STRIP (`Designed to Be Lived With ✦` from LOMORA)
          ===================================================================== */}
-      <div className="w-full bg-[#18110C] text-white py-3.5 overflow-hidden">
-        <div className="lomora-marquee-track flex items-center gap-8 whitespace-nowrap" dir="ltr">
+      <div className="w-full max-w-full bg-[#18110C] text-white py-3.5 overflow-hidden">
+        <div className="lomora-marquee-track flex items-center gap-8 whitespace-nowrap">
           {[...marqueeItems, ...marqueeItems, ...marqueeItems].map((text, idx) => (
             <span
               key={idx}

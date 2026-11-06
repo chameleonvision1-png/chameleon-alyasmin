@@ -265,8 +265,8 @@ export default function Footer({
       <div className="relative z-10 pt-2 pb-6 sm:pb-8 select-none overflow-hidden">
         <div
           dir="ltr"
-          className="font-en text-center font-black tracking-[-0.04em] leading-[0.82] text-[#E8A514] whitespace-nowrap px-1"
-          style={{ fontSize: "clamp(3.3rem, 16.6vw, 13.8rem)" }}
+          className="font-en text-center font-black tracking-[-0.04em] leading-[0.82] text-[#E8A514] whitespace-nowrap px-2 max-w-full overflow-hidden"
+          style={{ fontSize: "clamp(2.2rem, 14vw, 13rem)" }}
         >
           ALYASMIN
         </div>

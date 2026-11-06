@@ -232,19 +232,14 @@ export default function LomoraHero() {
           </div>
         )}
 
-        {/* Harmonious Centered Headline Block */}
-        <div className="pt-1 text-center space-y-2">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#18110C] text-[#E8A514] px-3.5 py-1 text-[11px] font-extrabold shadow-xs">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E8A514]" />
-            <span>المطبخ الدمشقي الأصيل • القاهرة</span>
-          </div>
-
-          <h1 className="text-[26px] sm:text-[30px] font-black leading-[1.28] tracking-tight text-[#18110C]">
-            <span className="block">أصالة المذاق السوري</span>
-            <span className="block text-[#FFFDF7] drop-shadow-[0_2px_10px_rgba(24,17,12,0.28)]">
+        {/* Clean 3-Line Headline (No extra badge above title, zero orphan word wrapping) */}
+        <div className="pt-1 text-right">
+          <h1 className="text-[clamp(1.35rem,6.1vw,1.85rem)] font-black leading-[1.35] tracking-tight text-[#18110C]">
+            <span className="block whitespace-nowrap">أصالة المذاق السوري</span>
+            <span className="block whitespace-nowrap text-[#FFFDF7] drop-shadow-[0_2px_8px_rgba(24,17,12,0.22)]">
               شاورما عالصاج ومشاوي شامية
             </span>
-            <span className="block">طعم الشام الأصيل في كل لقمة</span>
+            <span className="block whitespace-nowrap">طعم الشام الأصيل في كل لقمة</span>
           </h1>
         </div>
 
@@ -312,30 +307,28 @@ export default function LomoraHero() {
           })}
         </div>
 
-        {/* Centered, Comfortable Editorial Description + High-Contrast Category Cards */}
-        <div className="rounded-[24px] bg-[#FFFDF7]/85 backdrop-blur-xs border border-[#18110C]/10 p-4 space-y-3 shadow-sm">
-          <p className="text-xs sm:text-[13px] leading-[1.8] font-extrabold text-[#18110C] text-center">
-            نحضّر أطباقنا الشامية يومياً من أجود اللحوم الطازجة والتتبيلات الدمشقية العريقة، لنقدم لك مذاق الشام الأصيل ودفء الضيافة السورية في كل لقمة.
-          </p>
+        {/* Editorial Description + Category Pills (No extra box wrapper) */}
+        <p className="text-xs sm:text-sm leading-[1.8] font-bold text-[#18110C]/90 text-right pt-0.5">
+          نحضّر أطباقنا الشامية يومياً من أجود اللحوم الطازجة والتتبيلات الدمشقية العريقة، لنقدم لك مذاق الشام الأصيل ودفء الضيافة السورية في كل لقمة.
+        </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-1.5 pt-0.5">
-            {HERO_PILL_TAGS.map((tag) => (
-              <Link
-                key={tag.label}
-                href={tag.href}
-                className="rounded-full bg-[#18110C] hover:bg-[#2B1E14] text-[#FFFDF7] px-3.5 py-1.5 text-[11px] font-extrabold transition shadow-2xs"
-              >
-                {tag.label}
-              </Link>
-            ))}
-          </div>
+        <div className="flex flex-wrap items-center gap-2">
+          {HERO_PILL_TAGS.map((tag) => (
+            <Link
+              key={tag.label}
+              href={tag.href}
+              className="rounded-full bg-[#18110C] hover:bg-[#2B1E14] text-[#FFFDF7] px-3.5 py-1.5 text-[11px] font-extrabold transition shadow-2xs"
+            >
+              {tag.label}
+            </Link>
+          ))}
         </div>
       </div>
 
       {/* =====================================================================
           DESKTOP (`Web`) LOMORA HERO
           - Menu Pill on RIGHT, Logo + CTA on LEFT
-          - Balanced 3-line headline with eyebrow badge
+          - Clean 3-line headline (no extra badge above title)
           - 3 Framed Dish Selector Cards straddling the seam
           - Full-bleed Dish Stage on Left with clean floating pills & category tags
          ===================================================================== */}
@@ -366,18 +359,13 @@ export default function LomoraHero() {
           </div>
 
           {/* Harmonious 3-Line Stacked Headline */}
-          <div className="my-auto py-6 space-y-3">
-            <div className="inline-flex items-center gap-2 rounded-full bg-[#18110C] text-[#E8A514] px-4 py-1.5 text-xs font-extrabold shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-[#E8A514]" />
-              <span>المطبخ الدمشقي الأصيل • القاهرة</span>
-            </div>
-
-            <h1 className="text-4xl xl:text-[44px] font-black leading-[1.24] tracking-tight text-[#18110C]">
-              <span className="block">أصالة المذاق السوري</span>
-              <span className="block text-[#FFFDF7] drop-shadow-[0_3px_14px_rgba(24,17,12,0.28)]">
+          <div className="my-auto py-6">
+            <h1 className="text-4xl xl:text-[42px] font-black leading-[1.28] tracking-tight text-[#18110C]">
+              <span className="block whitespace-nowrap">أصالة المذاق السوري</span>
+              <span className="block whitespace-nowrap text-[#FFFDF7] drop-shadow-[0_3px_14px_rgba(24,17,12,0.28)]">
                 شاورما عالصاج ومشاوي شامية
               </span>
-              <span className="block">طعم الشام الأصيل في كل لقمة</span>
+              <span className="block whitespace-nowrap">طعم الشام الأصيل في كل لقمة</span>
             </h1>
           </div>
 

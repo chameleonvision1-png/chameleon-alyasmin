@@ -78,11 +78,8 @@ export default function TheEditShowcase({ products }: { products: Product[] }) {
           </h2>
         </div>
 
-        {/* Col 2: Philosophy Subtitle + 3-Line Paragraph */}
-        <div className="lg:col-span-5 space-y-1.5">
-          <div className="text-xs font-black text-[#18110C] tracking-wide uppercase">
-            فلسفة الضيافة السورية
-          </div>
+        {/* Col 2: Clean Description Paragraph (no duplicate sub-title) */}
+        <div className="lg:col-span-5">
           <p className="text-xs sm:text-sm text-[#292929]/75 leading-relaxed">
             كل طبق يُحضّر بعناية ليجمع بين أصالة التتبيلة الدمشقية، جودة اللحوم الطازجة، ودفء اللمة العائلية — مذاق شامي أصيل يترك أثره في كل لقمة.
           </p>
