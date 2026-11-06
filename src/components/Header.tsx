@@ -4,7 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useStore } from "./store";
-import { BagIcon, CloseIcon, MenuIcon, PhoneIcon, WhatsAppIcon } from "./icons";
+import { openMenuQrModal } from "./MenuQrModal";
+import { BagIcon, CloseIcon, MenuIcon, PhoneIcon, QrCodeIcon, WhatsAppIcon } from "./icons";
 
 const nav = [
   { href: "/", label: "الرئيسية" },
@@ -50,11 +51,44 @@ export default function Header() {
             />
           </Link>
 
-          {/* RIGHT: Desktop Pill Nav + Cart + Burger Menu at FAR RIGHT */}
+          {/* RIGHT: Desktop Pill Nav + QR + Cart + Burger Menu at FAR RIGHT */}
           <div className="flex items-center gap-2">
             <nav dir="rtl" className="hidden lg:flex items-center gap-1 rounded-full bg-[#18110C] text-white px-3 py-1.5 shadow-md">
               {nav.map((n) => {
                 const active = pathname === n.href;
+                if (n.href === "/menu") {
+                  return (
+                    <div
+                      key={n.href}
+                      className={`inline-flex items-center rounded-full transition ${
+                        active
+                          ? "bg-[#E8A514] text-[#18110C]"
+                          : "bg-white/10 text-white hover:bg-white/15"
+                      }`}
+                    >
+                      <Link
+                        href={n.href}
+                        className="pr-3.5 pl-2 py-1.5 text-xs font-extrabold"
+                      >
+                        {n.label}
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={openMenuQrModal}
+                        title="باركود ومشاركة المنيو (QR)"
+                        aria-label="باركود ومشاركة المنيو"
+                        className={`pl-2.5 pr-2 py-1.5 border-r text-[11px] font-black inline-flex items-center gap-1 transition cursor-pointer rounded-l-full ${
+                          active
+                            ? "border-[#18110C]/20 text-[#18110C] hover:bg-black/10"
+                            : "border-white/15 text-[#E8A514] hover:bg-white/10"
+                        }`}
+                      >
+                        <QrCodeIcon className="w-3.5 h-3.5" />
+                        <span className="font-en">QR</span>
+                      </button>
+                    </div>
+                  );
+                }
                 return (
                   <Link
                     key={n.href}
@@ -79,11 +113,21 @@ export default function Header() {
               <span dir="ltr" className="font-en">01010400507</span>
             </a>
 
+            <button
+              type="button"
+              onClick={openMenuQrModal}
+              title="باركود ومشاركة المنيو (QR)"
+              aria-label="باركود المنيو QR"
+              className="w-10 h-10 rounded-full bg-[#18110C] text-[#E8A514] hover:bg-[#2A1E15] grid place-items-center shadow-md shrink-0 active:scale-95 transition cursor-pointer"
+            >
+              <QrCodeIcon className="w-4 h-4" />
+            </button>
+
             <Link
               href="/cart"
               dir="rtl"
               aria-label="سلة الطلبات"
-              className="relative inline-flex items-center gap-1.5 h-10 rounded-full bg-[#18110C] text-white px-4 text-xs font-extrabold shadow-md hover:bg-[#2A1E15] transition"
+              className="relative inline-flex items-center gap-1.5 h-10 rounded-full bg-[#18110C] text-white px-3.5 sm:px-4 text-xs font-extrabold shadow-md hover:bg-[#2A1E15] transition"
             >
               <BagIcon className="w-4 h-4 text-[#E8A514]" />
               <span>السلة</span>
@@ -116,6 +160,28 @@ export default function Header() {
             className="bg-[#18110C] text-white rounded-b-[28px] border-t border-white/10 p-4 space-y-3 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Highlighted Menu + QR Action Row at Top of Burger Menu */}
+            <div className="flex items-center gap-2 pb-2 border-b border-white/10">
+              <Link
+                href="/menu"
+                onClick={() => setOpen(false)}
+                className="flex-1 rounded-2xl bg-[#E8A514] text-[#18110C] py-2.5 px-3.5 text-xs font-black flex items-center justify-center gap-2 shadow-md"
+              >
+                <span>تصفح المنيو الكامل</span>
+              </Link>
+              <button
+                type="button"
+                onClick={() => {
+                  setOpen(false);
+                  openMenuQrModal();
+                }}
+                className="rounded-2xl bg-white/10 hover:bg-[#E8A514] text-[#E8A514] hover:text-[#18110C] border border-[#E8A514]/40 py-2.5 px-3.5 text-xs font-black inline-flex items-center gap-1.5 transition cursor-pointer shrink-0"
+              >
+                <QrCodeIcon className="w-4 h-4" />
+                <span>باركود المنيو QR</span>
+              </button>
+            </div>
+
             <div className="grid grid-cols-2 gap-2">
               {nav.map((n) => {
                 const active = pathname === n.href;

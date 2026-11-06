@@ -10,7 +10,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: "تواصل مع مطعم الياسمين للمأكولات السورية | 01010400507",
     description: "نسعد بخدمتكم وتلقي طلباتكم واستفساراتكم يومياً في القاهرة.",
-    images: [{ url: "/og-contact.jpg", width: 1200, height: 630 }],
+    images: [{ url: "/og-contact.jpg?v=3", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "تواصل مع مطعم الياسمين للمأكولات السورية | 01010400507",
+    images: ["/og-contact.jpg?v=3"],
   },
 };
 

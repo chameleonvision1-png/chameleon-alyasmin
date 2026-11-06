@@ -6,10 +6,33 @@ export const metadata: Metadata = {
   title: "المنيو الكامل | شاورما، مشاوي، فتات، بروستد ومقبلات سورية",
   description:
     "تصفح المنيو الكامل لمطعم الياسمين للمأكولات السورية في القاهرة — شاورما صاج وعربي، مشاوي عالفحم، فتات دمشقية بالسمن البلدي، مقبلات شامية، وصواني العيلة.",
+  alternates: {
+    canonical: "/menu",
+  },
   openGraph: {
+    type: "website",
+    locale: "ar_EG",
+    url: "https://alyasmin.chameleon.vision/menu",
+    siteName: "مطعم الياسمين الدمشقي | Alyasmin",
     title: "المنيو السوري الكامل | مطعم الياسمين Alyasmin",
-    description: "أصالة المذاق السوري في كل طبق — اطلب الآن توصيل سريع 01010400507.",
-    images: [{ url: "/og-menu.jpg", width: 1200, height: 630 }],
+    description:
+      "تصفح منيو مطعم الياسمين الكامل بالأسعار والصور — شاورما عالصاج، مشاوي عالفحم، فتات بالسمن البلدي، وبروستد سوري. اطلب الآن: 01010400507.",
+    images: [
+      {
+        url: "/og-menu.jpg?v=3",
+        width: 1200,
+        height: 630,
+        alt: "منيو مطعم الياسمين السوري الكامل | Alyasmin Menu",
+        type: "image/jpeg",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "المنيو السوري الكامل | مطعم الياسمين Alyasmin",
+    description:
+      "تصفح منيو مطعم الياسمين الكامل بالأسعار والصور — شاورما عالصاج، مشاوي عالفحم، فتات بالسمن البلدي، وبروستد سوري.",
+    images: ["/og-menu.jpg?v=3"],
   },
 };
 

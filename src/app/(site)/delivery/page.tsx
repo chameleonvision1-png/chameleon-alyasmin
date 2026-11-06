@@ -10,7 +10,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: "التوصيل السريع في القاهرة | مطعم الياسمين Alyasmin",
     description: "أكلك السوري المفضل يوصلك سخن وطازج — 01010400507.",
-    images: [{ url: "/og-delivery.jpg", width: 1200, height: 630 }],
+    images: [{ url: "/og-delivery.jpg?v=3", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "التوصيل السريع في القاهرة | مطعم الياسمين Alyasmin",
+    images: ["/og-delivery.jpg?v=3"],
   },
 };
 

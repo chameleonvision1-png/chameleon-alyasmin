@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import type { Branch } from "@/lib/types";
-import { FacebookIcon, MailIcon, PhoneIcon, PinIcon, WhatsAppIcon } from "./icons";
+import { openMenuQrModal } from "./MenuQrModal";
+import { FacebookIcon, MailIcon, PhoneIcon, PinIcon, QrCodeIcon, WhatsAppIcon } from "./icons";
 
 export default function Footer({
   branches = [],
@@ -62,6 +63,14 @@ export default function Footer({
             <Link href="/contact" className="hover:text-[#E8A514] transition">
               تواصل معنا
             </Link>
+            <button
+              type="button"
+              onClick={openMenuQrModal}
+              className="inline-flex items-center gap-1.5 rounded-full bg-[#E8A514]/15 hover:bg-[#E8A514] text-[#E8A514] hover:text-[#18110C] border border-[#E8A514]/35 px-3.5 py-1.5 text-xs font-black transition cursor-pointer"
+            >
+              <QrCodeIcon className="w-3.5 h-3.5" />
+              <span>باركود المنيو QR</span>
+            </button>
           </div>
 
           <Link href="/" className="self-end sm:self-auto shrink-0">

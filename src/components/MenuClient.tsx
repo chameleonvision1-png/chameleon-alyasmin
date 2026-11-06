@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Category, Product } from "@/lib/types";
 import { ProductCard } from "./Product";
-import { CloseIcon, SearchIcon } from "./icons";
+import { openMenuQrModal } from "./MenuQrModal";
+import { CloseIcon, QrCodeIcon, SearchIcon } from "./icons";
 
 export default function MenuClient({
   categories,
@@ -110,25 +111,37 @@ export default function MenuClient({
          ===================================================================== */}
       <div className="sticky top-16 lg:top-[72px] z-30 w-full bg-white/95 backdrop-blur-md border-b border-[#18110C]/10 shadow-[0_8px_24px_-12px_rgba(24,17,12,0.12)] py-2.5">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-2">
-          {/* Search Input */}
-          <div className="relative">
-            <SearchIcon className="w-4 h-4 text-[#A87508] absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-            <input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="ابحث في منيو الياسمين (شاورما، مشاوي، فتة، كبة، حمص...)"
-              className="w-full rounded-full bg-[#FAF6EC] border border-[#18110C]/12 focus:border-[#E8A514] focus:bg-white pr-10 pl-9 py-2 text-xs sm:text-sm font-bold text-[#18110C] outline-none transition"
-            />
-            {search && (
-              <button
-                type="button"
-                onClick={() => setSearch("")}
-                aria-label="مسح البحث"
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-[#18110C]/10 text-[#18110C] grid place-items-center"
-              >
-                <CloseIcon className="w-3.5 h-3.5" />
-              </button>
-            )}
+          {/* Search Input + QR Code & Share Button Row */}
+          <div className="flex items-center gap-2">
+            <div className="relative flex-1 min-w-0">
+              <SearchIcon className="w-4 h-4 text-[#A87508] absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="ابحث في منيو الياسمين (شاورما، مشاوي، فتة، كبة، حمص...)"
+                className="w-full rounded-full bg-[#FAF6EC] border border-[#18110C]/12 focus:border-[#E8A514] focus:bg-white pr-10 pl-9 py-2 text-xs sm:text-sm font-bold text-[#18110C] outline-none transition"
+              />
+              {search && (
+                <button
+                  type="button"
+                  onClick={() => setSearch("")}
+                  aria-label="مسح البحث"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-[#18110C]/10 text-[#18110C] grid place-items-center"
+                >
+                  <CloseIcon className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+
+            <button
+              type="button"
+              onClick={openMenuQrModal}
+              title="باركود ومشاركة المنيو (QR)"
+              className="inline-flex items-center gap-1.5 rounded-full bg-[#18110C] hover:bg-[#E8A514] text-white hover:text-[#18110C] px-3.5 sm:px-4 py-2 text-xs font-black shadow-sm transition cursor-pointer shrink-0"
+            >
+              <QrCodeIcon className="w-4 h-4 text-[#E8A514] group-hover:text-[#18110C]" />
+              <span>باركود المنيو</span>
+            </button>
           </div>
 
           {/* Horizontal Scrollable Category Pills (Auto-scrolls with page scroll) */}

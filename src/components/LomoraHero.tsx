@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { useStore } from "./store";
-import { ArrowUpLeftIcon, BagIcon, CloseIcon, MenuIcon, PhoneIcon, WhatsAppIcon } from "./icons";
+import { openMenuQrModal } from "./MenuQrModal";
+import { ArrowUpLeftIcon, BagIcon, CloseIcon, MenuIcon, PhoneIcon, QrCodeIcon, WhatsAppIcon } from "./icons";
 
 interface HeroSlide {
   id: string;
@@ -103,12 +104,21 @@ export default function LomoraHero() {
             />
           </Link>
 
-          {/* RIGHT: Cart Button + Burger Menu Button at FAR RIGHT */}
+          {/* RIGHT: QR Button + Cart Button + Burger Menu Button at FAR RIGHT */}
           <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={openMenuQrModal}
+              title="باركود ومشاركة المنيو (QR)"
+              aria-label="باركود المنيو QR"
+              className="w-10 h-10 rounded-full bg-[#18110C] text-[#E8A514] grid place-items-center shadow-md active:scale-95 transition shrink-0 cursor-pointer"
+            >
+              <QrCodeIcon className="w-4 h-4" />
+            </button>
             <Link
               href="/cart"
               dir="rtl"
-              className="inline-flex items-center gap-1.5 h-10 rounded-full bg-[#18110C] text-white px-4 text-xs font-extrabold shadow-md"
+              className="inline-flex items-center gap-1.5 h-10 rounded-full bg-[#18110C] text-white px-3.5 text-xs font-extrabold shadow-md"
             >
               <BagIcon className="w-4 h-4 text-[#E8A514]" />
               <span>السلة</span>
@@ -132,6 +142,28 @@ export default function LomoraHero() {
         {/* Mobile Dropdown Menu Drawer */}
         {mobileMenuOpen && (
           <div dir="rtl" className="rounded-[24px] bg-[#18110C] text-white p-4 space-y-3 shadow-2xl border border-white/10">
+            {/* Highlighted Menu + QR Action Row at Top of Burger Menu */}
+            <div className="flex items-center gap-2 pb-2 border-b border-white/10">
+              <Link
+                href="/menu"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex-1 rounded-2xl bg-[#E8A514] text-[#18110C] py-2.5 px-3.5 text-xs font-black flex items-center justify-center gap-2 shadow-md"
+              >
+                <span>تصفح المنيو الكامل</span>
+              </Link>
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  openMenuQrModal();
+                }}
+                className="rounded-2xl bg-white/10 hover:bg-[#E8A514] text-[#E8A514] hover:text-[#18110C] border border-[#E8A514]/40 py-2.5 px-3.5 text-xs font-black inline-flex items-center gap-1.5 transition cursor-pointer shrink-0"
+              >
+                <QrCodeIcon className="w-4 h-4" />
+                <span>باركود المنيو QR</span>
+              </button>
+            </div>
+
             <div className="grid grid-cols-2 gap-2">
               {NAV_LINKS.map((item) => (
                 <Link
@@ -370,8 +402,17 @@ export default function LomoraHero() {
               />
             </Link>
 
-            {/* White Pill CTA Button + Cart */}
+            {/* White Pill CTA Button + QR + Cart */}
             <div className="flex items-center gap-2.5" dir="rtl">
+              <button
+                type="button"
+                onClick={openMenuQrModal}
+                title="باركود ومشاركة المنيو (QR)"
+                className="inline-flex items-center gap-1.5 rounded-full bg-[#18110C] hover:bg-[#E8A514] text-[#E8A514] hover:text-[#18110C] border border-[#E8A514]/45 px-4 py-2 text-xs font-black shadow-lg transition cursor-pointer"
+              >
+                <QrCodeIcon className="w-4 h-4" />
+                <span>باركود المنيو QR</span>
+              </button>
               {count > 0 && (
                 <Link
                   href="/cart"

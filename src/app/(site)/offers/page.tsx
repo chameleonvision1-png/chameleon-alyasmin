@@ -9,7 +9,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: "عروض وبوكسات الياسمين للمأكولات السورية",
     description: "لمة العيلة تبدأ من هنا — أقوى عروض الشاورما والمشاوي السورية.",
-    images: [{ url: "/og-offers.jpg", width: 1200, height: 630 }],
+    images: [{ url: "/og-offers.jpg?v=3", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "عروض وبوكسات الياسمين للمأكولات السورية",
+    images: ["/og-offers.jpg?v=3"],
   },
 };
 

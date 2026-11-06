@@ -9,7 +9,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: "ولائم وعزومات مطعم الياسمين للمأكولات السورية",
     description: "صواني شاورما ومشاوي وفتات سورية فاخرة تكفي كل اللمة.",
-    images: [{ url: "/og-occasions.jpg", width: 1200, height: 630 }],
+    images: [{ url: "/og-occasions.jpg?v=3", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ولائم وعزومات مطعم الياسمين للمأكولات السورية",
+    images: ["/og-occasions.jpg?v=3"],
   },
 };
 
