@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { useStore } from "./store";
-import { ArrowUpLeftIcon, BagIcon, CloseIcon } from "./icons";
+import { ArrowUpLeftIcon, BagIcon, CloseIcon, MenuIcon, PhoneIcon, WhatsAppIcon } from "./icons";
 
 interface HeroSlide {
   id: string;
@@ -42,9 +42,11 @@ const HERO_PILL_TAGS_ROW2 = ["مقبلات أصلية", "ولائم العيلة
 
 const NAV_LINKS = [
   { href: "/", label: "الرئيسية" },
-  { href: "/menu", label: "المنيو" },
-  { href: "/offers", label: "العروض" },
-  { href: "/about", label: "عن الياسمين" },
+  { href: "/menu", label: "المنيو الكامل" },
+  { href: "/offers", label: "العروض والبوكسات" },
+  { href: "/delivery", label: "مناطق التوصيل" },
+  { href: "/occasions", label: "ولائم العزومات" },
+  { href: "/about", label: "حكاية الياسمين" },
   { href: "/contact", label: "تواصل معنا" },
 ];
 
@@ -101,63 +103,69 @@ export default function LomoraHero() {
             />
           </Link>
 
-          {/* RIGHT: Cart Badge (if > 0) + Burger Menu Button */}
+          {/* RIGHT: Cart Button + Burger Menu Button at FAR RIGHT */}
           <div className="flex items-center gap-2">
-            {count > 0 && (
-              <Link
-                href="/cart"
-                className="inline-flex items-center gap-1.5 rounded-full bg-[#18110C] text-[#E8A514] px-3 py-1.5 text-xs font-black shadow-md"
-              >
-                <BagIcon className="w-3.5 h-3.5" />
-                <span>{count}</span>
-              </Link>
-            )}
+            <Link
+              href="/cart"
+              dir="rtl"
+              className="inline-flex items-center gap-1.5 h-10 rounded-full bg-[#18110C] text-white px-4 text-xs font-extrabold shadow-md"
+            >
+              <BagIcon className="w-4 h-4 text-[#E8A514]" />
+              <span>السلة</span>
+              {count > 0 && (
+                <span className="min-w-5 h-5 px-1.5 rounded-full bg-[#E8A514] text-[#18110C] text-[11px] font-black grid place-items-center">
+                  {count}
+                </span>
+              )}
+            </Link>
             <button
               type="button"
               onClick={() => setMobileMenuOpen((v) => !v)}
               aria-label="القائمة"
-              className="w-11 h-11 rounded-full bg-[#18110C] text-white grid place-items-center shadow-md active:scale-95 transition"
+              className="w-10 h-10 rounded-full bg-[#18110C] text-[#E8A514] grid place-items-center shadow-md active:scale-95 transition shrink-0 cursor-pointer"
             >
-              {mobileMenuOpen ? (
-                <CloseIcon className="w-5 h-5" />
-              ) : (
-                <svg
-                  className="w-5 h-5"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.3"
-                  strokeLinecap="round"
-                >
-                  <line x1="4" y1="9" x2="20" y2="9" />
-                  <line x1="4" y1="15" x2="20" y2="15" />
-                </svg>
-              )}
+              {mobileMenuOpen ? <CloseIcon className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
             </button>
           </div>
         </div>
 
         {/* Mobile Dropdown Menu Drawer */}
         {mobileMenuOpen && (
-          <div className="rounded-2xl bg-[#18110C] text-white p-4 space-y-2.5 shadow-2xl">
+          <div dir="rtl" className="rounded-[24px] bg-[#18110C] text-white p-4 space-y-3 shadow-2xl border border-white/10">
             <div className="grid grid-cols-2 gap-2">
               {NAV_LINKS.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-xl bg-white/10 hover:bg-[#E8A514] hover:text-[#18110C] px-3.5 py-2.5 text-xs font-extrabold transition"
+                  className={`rounded-2xl px-3.5 py-2.5 text-xs font-black transition ${
+                    item.href === "/"
+                      ? "bg-[#E8A514] text-[#18110C]"
+                      : "bg-white/10 hover:bg-white/15 text-white"
+                  }`}
                 >
                   {item.label}
                 </Link>
               ))}
-              <Link
-                href="/menu"
-                onClick={() => setMobileMenuOpen(false)}
-                className="rounded-xl bg-[#E8A514] text-[#18110C] px-3.5 py-2.5 text-xs font-black text-center"
+            </div>
+            <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/10">
+              <a
+                href="tel:01010400507"
+                dir="ltr"
+                className="font-en rounded-2xl bg-[#E8A514] text-[#18110C] py-2.5 px-3 text-xs font-black flex items-center justify-center gap-1.5"
               >
-                اطلب الآن • 01010400507
-              </Link>
+                <PhoneIcon className="w-3.5 h-3.5" />
+                <span>01010400507</span>
+              </a>
+              <a
+                href="https://wa.me/201010400507"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-2xl bg-[#25D366] text-white py-2.5 px-3 text-xs font-black flex items-center justify-center gap-1.5"
+              >
+                <WhatsAppIcon className="w-3.5 h-3.5" />
+                <span>طلب واتساب</span>
+              </a>
             </div>
           </div>
         )}

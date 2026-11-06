@@ -4,15 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useStore } from "./store";
-import { BagIcon, CloseIcon, MenuIcon, PhoneIcon } from "./icons";
+import { BagIcon, CloseIcon, MenuIcon, PhoneIcon, WhatsAppIcon } from "./icons";
 
 const nav = [
   { href: "/", label: "الرئيسية" },
-  { href: "/menu", label: "المنيو" },
-  { href: "/offers", label: "العروض" },
-  { href: "/delivery", label: "التوصيل" },
-  { href: "/occasions", label: "العزومات" },
-  { href: "/about", label: "عن الياسمين" },
+  { href: "/menu", label: "المنيو الكامل" },
+  { href: "/offers", label: "العروض والبوكسات" },
+  { href: "/delivery", label: "مناطق التوصيل" },
+  { href: "/occasions", label: "ولائم العزومات" },
+  { href: "/about", label: "حكاية الياسمين" },
   { href: "/contact", label: "تواصل معنا" },
 ];
 
@@ -35,7 +35,7 @@ export default function Header() {
           backgroundSize: "420px 420px",
         }}
       >
-        {/* dir="ltr" guarantees Logo is always on the LEFT and Burger Menu is on the RIGHT */}
+        {/* dir="ltr" guarantees Logo is always on the LEFT and Burger Menu is at FAR RIGHT */}
         <div
           dir="ltr"
           className="mx-auto max-w-7xl h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-3"
@@ -73,7 +73,7 @@ export default function Header() {
 
             <a
               href="tel:01010400507"
-              className="hidden sm:inline-flex items-center gap-2 rounded-full bg-white hover:bg-[#FFFDF7] text-[#18110C] px-4 py-2 text-xs font-black transition shadow-sm"
+              className="hidden sm:inline-flex items-center gap-2 h-10 rounded-full bg-white hover:bg-[#FFFDF7] text-[#18110C] px-4 text-xs font-black transition shadow-sm"
             >
               <PhoneIcon className="w-3.5 h-3.5 text-[#B87B06]" />
               <span dir="ltr" className="font-en">01010400507</span>
@@ -83,7 +83,7 @@ export default function Header() {
               href="/cart"
               dir="rtl"
               aria-label="سلة الطلبات"
-              className="relative inline-flex items-center gap-1.5 rounded-full bg-[#18110C] text-white px-3.5 py-2 text-xs font-extrabold shadow-md hover:bg-[#2A1E15] transition"
+              className="relative inline-flex items-center gap-1.5 h-10 rounded-full bg-[#18110C] text-white px-4 text-xs font-extrabold shadow-md hover:bg-[#2A1E15] transition"
             >
               <BagIcon className="w-4 h-4 text-[#E8A514]" />
               <span>السلة</span>
@@ -98,7 +98,7 @@ export default function Header() {
               type="button"
               onClick={() => setOpen((v) => !v)}
               aria-label="القائمة"
-              className="lg:hidden w-10 h-10 rounded-full bg-[#18110C] text-white grid place-items-center shadow-md shrink-0"
+              className="lg:hidden w-10 h-10 rounded-full bg-[#18110C] text-[#E8A514] grid place-items-center shadow-md shrink-0 active:scale-95 transition cursor-pointer"
             >
               {open ? <CloseIcon className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
             </button>
@@ -108,15 +108,12 @@ export default function Header() {
 
       {open && (
         <div
-          className="lg:hidden fixed inset-0 top-16 z-40 bg-black/50 backdrop-blur-xs"
+          className="lg:hidden fixed inset-0 top-16 z-40 bg-black/55 backdrop-blur-xs"
           onClick={() => setOpen(false)}
         >
           <div
-            className="bg-[#E8A514] border-b border-[#18110C]/15 p-4 space-y-2 shadow-2xl"
-            style={{
-              backgroundImage: 'url("/images/shawarma-pattern-gold.webp")',
-              backgroundSize: "380px 380px",
-            }}
+            dir="rtl"
+            className="bg-[#18110C] text-white rounded-b-[28px] border-t border-white/10 p-4 space-y-3 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="grid grid-cols-2 gap-2">
@@ -129,14 +126,34 @@ export default function Header() {
                     onClick={() => setOpen(false)}
                     className={`px-3.5 py-2.5 rounded-2xl text-xs font-black flex items-center justify-between transition ${
                       active
-                        ? "bg-[#18110C] text-[#E8A514] shadow-md"
-                        : "bg-white/95 text-[#18110C]"
+                        ? "bg-[#E8A514] text-[#18110C] shadow-md"
+                        : "bg-white/10 text-white hover:bg-white/15"
                     }`}
                   >
                     <span>{n.label}</span>
                   </Link>
                 );
               })}
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/10">
+              <a
+                href="tel:01010400507"
+                dir="ltr"
+                className="font-en rounded-2xl bg-[#E8A514] text-[#18110C] py-2.5 px-3 text-xs font-black flex items-center justify-center gap-1.5"
+              >
+                <PhoneIcon className="w-3.5 h-3.5" />
+                <span>01010400507</span>
+              </a>
+              <a
+                href="https://wa.me/201010400507"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-2xl bg-[#25D366] text-white py-2.5 px-3 text-xs font-black flex items-center justify-center gap-1.5"
+              >
+                <WhatsAppIcon className="w-3.5 h-3.5" />
+                <span>طلب واتساب</span>
+              </a>
             </div>
           </div>
         </div>
