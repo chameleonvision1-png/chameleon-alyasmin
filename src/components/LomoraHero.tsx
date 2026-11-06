@@ -5,11 +5,13 @@ import { useRef, useState } from "react";
 import { useStore } from "./store";
 import { formatPrice } from "@/lib/format";
 import { openMenuQrModal } from "./MenuQrModal";
+import { triggerPwaInstall, useIsStandalonePwa } from "./PwaInstallModal";
 import {
   ArrowUpLeftIcon,
   BagIcon,
   ChevronIcon,
   CloseIcon,
+  DownloadAppIcon,
   MenuIcon,
   PhoneIcon,
   QrCodeIcon,
@@ -74,6 +76,7 @@ export default function LomoraHero() {
   const [activeIdx, setActiveIdx] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { count, subtotal, hydrated } = useStore();
+  const isStandalone = useIsStandalonePwa();
   const touchStartX = useRef<number | null>(null);
 
   const current = HERO_SLIDES[activeIdx];
@@ -209,6 +212,21 @@ export default function LomoraHero() {
                 <ChevronIcon className="w-4 h-4 text-[#E8A514]" />
               </span>
             </Link>
+
+            {/* Install Web App Button inside Burger Menu Drawer */}
+            {!isStandalone && (
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  triggerPwaInstall();
+                }}
+                className="w-full rounded-2xl bg-white/10 hover:bg-[#E8A514] text-[#E8A514] hover:text-[#18110C] border border-[#E8A514]/40 px-3.5 py-2.5 text-xs font-black flex items-center justify-center gap-2 transition cursor-pointer"
+              >
+                <DownloadAppIcon className="w-4 h-4 shrink-0" />
+                <span>تثبيت تطبيق الياسمين على موبايلك</span>
+              </button>
+            )}
 
             <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/10">
               <a

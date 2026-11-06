@@ -6,7 +6,17 @@ import { useState } from "react";
 import { useStore } from "./store";
 import { formatPrice } from "@/lib/format";
 import { openMenuQrModal } from "./MenuQrModal";
-import { BagIcon, ChevronIcon, CloseIcon, MenuIcon, PhoneIcon, QrCodeIcon, WhatsAppIcon } from "./icons";
+import { triggerPwaInstall, useIsStandalonePwa } from "./PwaInstallModal";
+import {
+  BagIcon,
+  ChevronIcon,
+  CloseIcon,
+  DownloadAppIcon,
+  MenuIcon,
+  PhoneIcon,
+  QrCodeIcon,
+  WhatsAppIcon,
+} from "./icons";
 
 const nav = [
   { href: "/", label: "الرئيسية" },
@@ -22,6 +32,7 @@ export default function Header() {
   const pathname = usePathname();
   const { count, subtotal, hydrated } = useStore();
   const [open, setOpen] = useState(false);
+  const isStandalone = useIsStandalonePwa();
 
   // On the Homepage (`/`), LOMORA embeds the navbar directly inside the Hero stage
   if (pathname === "/") {
@@ -217,6 +228,21 @@ export default function Header() {
                 <ChevronIcon className="w-4 h-4 text-[#E8A514]" />
               </span>
             </Link>
+
+            {/* Install Web App Button inside Burger Menu Drawer */}
+            {!isStandalone && (
+              <button
+                type="button"
+                onClick={() => {
+                  setOpen(false);
+                  triggerPwaInstall();
+                }}
+                className="w-full rounded-2xl bg-white/10 hover:bg-[#E8A514] text-[#E8A514] hover:text-[#18110C] border border-[#E8A514]/40 px-3.5 py-2.5 text-xs font-black flex items-center justify-center gap-2 transition cursor-pointer"
+              >
+                <DownloadAppIcon className="w-4 h-4 shrink-0" />
+                <span>تثبيت تطبيق الياسمين على موبايلك</span>
+              </button>
+            )}
 
             <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/10">
               <a

@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Cairo, Plus_Jakarta_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -86,6 +87,26 @@ export const viewport: Viewport = {
   themeColor: "#E8A818",
 };
 
+const pwaInitScript = `
+(function() {
+  if (typeof window === "undefined") return;
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function() {
+      navigator.serviceWorker.register("/sw.js").catch(function() {});
+    });
+  }
+  window.addEventListener("beforeinstallprompt", function(e) {
+    e.preventDefault();
+    window.__pwaInstallPrompt = e;
+    window.dispatchEvent(new Event("pwa-install-available"));
+  });
+  window.addEventListener("appinstalled", function() {
+    window.__pwaInstallPrompt = null;
+    window.dispatchEvent(new Event("pwa-app-installed"));
+  });
+})();
+`;
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Restaurant",
@@ -117,6 +138,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${cairo.variable} ${jakarta.variable} antialiased`}
     >
       <body suppressHydrationWarning className="min-h-dvh flex flex-col w-full max-w-full overflow-x-clip">
+        <Script
+          id="pwa-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{ __html: pwaInitScript }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

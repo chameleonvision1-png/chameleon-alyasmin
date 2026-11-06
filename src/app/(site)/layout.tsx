@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import BranchPicker from "@/components/BranchPicker";
 import MobileCartBar from "@/components/MobileCartBar";
 import MenuQrModal from "@/components/MenuQrModal";
+import PwaInstallModal from "@/components/PwaInstallModal";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +19,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <BranchPicker />
       <MobileCartBar />
       <MenuQrModal />
+      <PwaInstallModal />
       <Footer branches={data.branches} settings={{ ...data.settings, adminPassword: "" }} />
     </StoreProvider>
   );
