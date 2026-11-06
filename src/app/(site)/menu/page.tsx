@@ -20,37 +20,29 @@ export default async function MenuPage() {
   const available = data.products.filter((p) => p.isAvailable);
 
   return (
-    <div className="space-y-8 pb-14">
-      {/* Alyasmin Original Yellow Shawarma-Pattern Hero Banner */}
+    <div className="pb-14">
+      {/* Compact Alyasmin Original Yellow Shawarma-Pattern Hero Banner */}
       <section
-        className="relative bg-[#E8A514] text-[#18110C] rounded-b-[32px] sm:rounded-b-[40px] py-10 sm:py-14 px-4 sm:px-6 overflow-hidden shadow-md"
+        className="relative bg-[#E8A514] text-[#18110C] py-7 sm:py-10 px-4 sm:px-6 overflow-hidden border-b border-[#18110C]/10"
         style={{
           backgroundImage: 'url("/images/shawarma-pattern-gold.webp")',
           backgroundSize: "440px 440px",
         }}
       >
-        <div className="relative z-10 mx-auto max-w-7xl flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div className="space-y-2">
-            <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white drop-shadow-[0_3px_0_#18110C]">
+        <div className="relative z-10 mx-auto max-w-7xl flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+          <div className="space-y-1">
+            <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-[#18110C]">
               منيو الياسمين السوري
             </h1>
-            <p className="text-xs sm:text-sm font-bold text-[#18110C]/90 max-w-xl leading-relaxed">
-              اختر أطباقك الشامية المفضلة من الشاورما عالصاج، المشاوي على الفحم، الفتات الدمشقية بالسمن البلدي، والمقبلات الطازجة.
+            <p className="text-xs sm:text-sm font-bold text-[#18110C]/85 max-w-xl leading-relaxed">
+              الشاورما عالصاج، المشاوي على الفحم، الفتات الدمشقية بالسمن البلدي، والمقبلات الشامية الطازجة.
             </p>
           </div>
-
-          <a
-            href="tel:01010400507"
-            className="self-start sm:self-auto rounded-full bg-[#18110C] text-[#E8A514] font-black text-xs px-5 py-2.5 shadow-md"
-          >
-            طلب سريع: <span dir="ltr" className="font-en">01010400507</span>
-          </a>
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <MenuClient categories={data.categories} products={available} />
-      </div>
+      {/* Full-width MenuClient so the Sticky Category & Search Bar spans edge-to-edge and scrolls smoothly */}
+      <MenuClient categories={data.categories} products={available} />
     </div>
   );
 }

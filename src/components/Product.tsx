@@ -61,59 +61,50 @@ export function ProductCard({
               openModal();
             }
           }}
-          className={`group relative w-full max-w-full min-w-0 overflow-hidden bg-white rounded-[24px] p-3.5 sm:p-4 border border-[#18110C]/10 hover:border-[#E8A818] shadow-[0_6px_20px_-10px_rgba(24,17,12,0.08)] hover:shadow-[0_14px_30px_-12px_rgba(232,168,24,0.2)] transition-all duration-200 flex items-center gap-3.5 text-start ${
+          className={`group relative w-full bg-white rounded-[22px] p-3.5 sm:p-4 border border-[#18110C]/10 hover:border-[#E8A514] shadow-[0_6px_20px_-10px_rgba(24,17,12,0.08)] hover:shadow-[0_14px_30px_-12px_rgba(232,165,20,0.22)] transition-all duration-200 flex items-start gap-3.5 text-start ${
             off ? "opacity-60 cursor-not-allowed" : "cursor-pointer"
           }`}
         >
-          {/* Main Menu Details — Arabic Right (RTL), English Left (LTR) */}
-          <div className="flex-1 min-w-0 flex flex-col justify-between">
-            <div className="flex items-baseline justify-between gap-2 min-w-0">
-              <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-                <h3 className="font-black text-sm sm:text-base text-[#18110C] group-hover:text-[#A87508] transition-colors leading-snug truncate text-right">
-                  {product.nameAr}
-                </h3>
-                {product.badge && (
-                  <span className="text-[10px] font-black bg-[#E8A818]/20 text-[#5A3218] px-2 py-0.5 rounded-full shrink-0">
-                    {product.badge}
-                  </span>
-                )}
-              </div>
-
-              {product.nameEn && (
-                <span
-                  dir="ltr"
-                  className="font-en text-[11px] font-bold text-[#A87508] truncate text-left shrink-0 max-w-[42%]"
-                >
-                  {product.nameEn}
+          {/* Main Menu Details — Full Un-truncated Arabic Title + Clean Description + Size/Price Chips */}
+          <div className="flex-1 min-w-0 flex flex-col justify-between space-y-1.5">
+            <div className="space-y-1">
+              {product.badge && (
+                <span className="inline-block text-[10px] font-black bg-[#FDF2CE] border border-[#E8A514]/40 text-[#5A3218] px-2.5 py-0.5 rounded-full">
+                  {product.badge}
                 </span>
               )}
+              <h3 className="font-black text-sm sm:text-base text-[#18110C] group-hover:text-[#A87508] transition-colors leading-snug text-right">
+                {product.nameAr}
+              </h3>
             </div>
 
-            <p className="text-xs text-[#292929]/70 mt-1 line-clamp-2 leading-relaxed text-right">
+            <p className="text-xs text-[#292929]/70 line-clamp-2 leading-relaxed text-right">
               {product.descriptionAr}
             </p>
 
-            {/* Bottom Row: Price Pill (Right) + Clean Size Chips (Left) */}
-            <div className="mt-2.5 flex items-center justify-between gap-1.5 flex-wrap">
-              <span className="inline-flex items-center rounded-full bg-[#18110C] text-[#E8A818] px-3 py-0.5 text-xs font-black whitespace-nowrap">
-                {formatPrice(mainPrice)}
-              </span>
-
-              {product.sizes.length > 1 && (
-                <div className="flex items-center gap-1 flex-wrap">
-                  {product.sizes.slice(0, 2).map((s) => (
-                    <span
-                      key={s.id}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openModal(s.id);
-                      }}
-                      className="rounded-full bg-[#FAF6EC] hover:bg-[#E8A818] border border-[#E8A818]/35 px-2.5 py-0.5 text-[10px] font-extrabold text-[#18110C] whitespace-nowrap transition"
-                    >
-                      {s.label}: {s.price} ج
-                    </span>
-                  ))}
-                </div>
+            {/* Bottom Row: If 1 size, show bold price pill; if multiple sizes, show clean interactive size pills without duplicating the price */}
+            <div className="pt-1 flex items-center flex-wrap gap-1.5">
+              {product.sizes.length <= 1 ? (
+                <span className="inline-flex items-center rounded-full bg-[#18110C] text-[#E8A514] px-3.5 py-1 text-xs font-black">
+                  {formatPrice(mainPrice)}
+                </span>
+              ) : (
+                product.sizes.map((s, idx) => (
+                  <span
+                    key={s.id}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openModal(s.id);
+                    }}
+                    className={`rounded-full px-3 py-1 text-[11px] font-black transition ${
+                      idx === 0
+                        ? "bg-[#18110C] text-[#E8A514]"
+                        : "bg-[#FDF2CE] hover:bg-[#E8A514] border border-[#E8A514]/45 text-[#18110C]"
+                    }`}
+                  >
+                    {s.label}: {s.price} ج.م
+                  </span>
+                ))
               )}
             </div>
           </div>
@@ -133,7 +124,7 @@ export function ProductCard({
               className={`absolute bottom-1.5 left-1.5 w-8 h-8 rounded-full shadow-md grid place-items-center transition ${
                 quickAdded
                   ? "bg-[#198754] text-white"
-                  : "bg-[#E8A818] hover:bg-[#D99B10] text-[#18110C]"
+                  : "bg-[#E8A514] hover:bg-[#D99B10] text-[#18110C]"
               }`}
             >
               {quickAdded ? <CheckIcon className="w-4 h-4" /> : <PlusIcon className="w-4 h-4" />}
