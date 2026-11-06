@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { useStore } from "./store";
+import { formatPrice } from "@/lib/format";
 import { openMenuQrModal } from "./MenuQrModal";
-import { ArrowUpLeftIcon, BagIcon, CloseIcon, MenuIcon, PhoneIcon, QrCodeIcon, WhatsAppIcon } from "./icons";
+import { ArrowUpLeftIcon, BagIcon, ChevronIcon, CloseIcon, MenuIcon, PhoneIcon, QrCodeIcon, WhatsAppIcon } from "./icons";
 
 interface HeroSlide {
   id: string;
@@ -54,7 +55,7 @@ const NAV_LINKS = [
 export default function LomoraHero() {
   const [activeIdx, setActiveIdx] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { count } = useStore();
+  const { count, subtotal, hydrated } = useStore();
   const touchStartX = useRef<number | null>(null);
 
   const current = HERO_SLIDES[activeIdx];
@@ -92,7 +93,7 @@ export default function LomoraHero() {
           - Editorial paragraph + 2 rows of pill tags
          ===================================================================== */}
       <div className="lg:hidden relative z-10 flex flex-col px-4 pt-4 pb-7 space-y-5">
-        {/* Top Navbar: Logo on LEFT, Burger Menu on RIGHT (`dir="ltr"`) */}
+        {/* Top Navbar: ONLY Logo on LEFT and Burger Menu Icon on RIGHT (`dir="ltr"`) */}
         <div dir="ltr" className="flex items-center justify-between gap-3">
           {/* LEFT: Official Alyasmin Shadowed Logo */}
           <Link href="/" className="flex items-center shrink-0">
@@ -104,39 +105,20 @@ export default function LomoraHero() {
             />
           </Link>
 
-          {/* RIGHT: QR Button + Cart Button + Burger Menu Button at FAR RIGHT */}
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={openMenuQrModal}
-              title="باركود ومشاركة المنيو (QR)"
-              aria-label="باركود المنيو QR"
-              className="w-10 h-10 rounded-full bg-[#18110C] text-[#E8A514] grid place-items-center shadow-md active:scale-95 transition shrink-0 cursor-pointer"
-            >
-              <QrCodeIcon className="w-4 h-4" />
-            </button>
-            <Link
-              href="/cart"
-              dir="rtl"
-              className="inline-flex items-center gap-1.5 h-10 rounded-full bg-[#18110C] text-white px-3.5 text-xs font-extrabold shadow-md"
-            >
-              <BagIcon className="w-4 h-4 text-[#E8A514]" />
-              <span>السلة</span>
-              {count > 0 && (
-                <span className="min-w-5 h-5 px-1.5 rounded-full bg-[#E8A514] text-[#18110C] text-[11px] font-black grid place-items-center">
-                  {count}
-                </span>
-              )}
-            </Link>
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen((v) => !v)}
-              aria-label="القائمة"
-              className="w-10 h-10 rounded-full bg-[#18110C] text-[#E8A514] grid place-items-center shadow-md active:scale-95 transition shrink-0 cursor-pointer"
-            >
-              {mobileMenuOpen ? <CloseIcon className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
-            </button>
-          </div>
+          {/* RIGHT: ONLY Burger Menu Button at FAR RIGHT */}
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen((v) => !v)}
+            aria-label="القائمة"
+            className="relative w-10 h-10 rounded-full bg-[#18110C] text-[#E8A514] grid place-items-center shadow-md active:scale-95 transition shrink-0 cursor-pointer"
+          >
+            {mobileMenuOpen ? <CloseIcon className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
+            {hydrated && count > 0 && !mobileMenuOpen && (
+              <span className="absolute -bottom-0.5 -left-0.5 min-w-4.5 h-4.5 px-1 rounded-full bg-[#E8A514] text-[#18110C] text-[10px] font-black grid place-items-center ring-2 ring-[#18110C]">
+                {count}
+              </span>
+            )}
+          </button>
         </div>
 
         {/* Mobile Dropdown Menu Drawer */}
@@ -180,6 +162,27 @@ export default function LomoraHero() {
                 </Link>
               ))}
             </div>
+
+            {/* Cart Link inside Burger Menu Drawer */}
+            <Link
+              href="/cart"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full rounded-2xl bg-white/10 hover:bg-white/15 border border-[#E8A514]/35 px-3.5 py-2.5 text-xs font-black flex items-center justify-between transition"
+            >
+              <span className="flex items-center gap-2 text-white">
+                <BagIcon className="w-4 h-4 text-[#E8A514]" />
+                <span>سلة الطلبات (واتساب)</span>
+              </span>
+              <span className="flex items-center gap-1.5">
+                {hydrated && count > 0 && (
+                  <span className="rounded-full bg-[#E8A514] text-[#18110C] px-2.5 py-0.5 text-[11px] font-black">
+                    {count} • {formatPrice(subtotal)}
+                  </span>
+                )}
+                <ChevronIcon className="w-4 h-4 text-[#E8A514]" />
+              </span>
+            </Link>
+
             <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/10">
               <a
                 href="tel:01010400507"
