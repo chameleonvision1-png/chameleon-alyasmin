@@ -4,7 +4,6 @@ import LomoraHero from "@/components/LomoraHero";
 import TheEditShowcase from "@/components/TheEditShowcase";
 import ChessboardBento from "@/components/ChessboardBento";
 import StoryGallery from "@/components/StoryGallery";
-import { JasmineDiamondIcon } from "@/components/icons";
 
 export default async function HomePage() {
   const data = await publicDB();
@@ -12,12 +11,12 @@ export default async function HomePage() {
   const featuredEdit = available.filter((p) => p.isBestSeller);
 
   const marqueeItems = [
-    "طعم الشام في كل لقمة",
-    "أصالة المذاق السوري",
-    "لمة العيلة تبدأ من هنا",
-    "أحلى أكل سوري على أصوله",
-    "طعم الشام في كل لقمة",
-    "أصالة المذاق السوري",
+    "شاورما عالصاج بالتتبيلة الدمشقية",
+    "مشاوي شامية على الفحم",
+    "فتات بالسمن البلدي والمكسرات",
+    "ثومية سورية وعيش صاج طازج",
+    "ولائم العيلة واللمة الحلوة",
+    "طعم الشام الأصيل في كل لقمة",
   ];
 
   return (
@@ -37,15 +36,21 @@ export default async function HomePage() {
       {/* =====================================================================
           3A. MARQUEE STRIP (`Designed to Be Lived With ✦` from LOMORA)
          ===================================================================== */}
-      <div className="w-full max-w-full bg-[#18110C] text-white py-3.5 overflow-hidden">
-        <div className="lomora-marquee-track flex items-center gap-8 whitespace-nowrap">
+      <div className="w-full max-w-full bg-[#18110C] text-white py-3.5 border-y border-[#E8A514]/25 overflow-hidden">
+        <div className="lomora-marquee-track flex items-center gap-7 whitespace-nowrap">
           {[...marqueeItems, ...marqueeItems, ...marqueeItems].map((text, idx) => (
             <span
               key={idx}
-              className="inline-flex items-center gap-8 text-xs sm:text-sm font-extrabold tracking-wide"
+              className="inline-flex items-center gap-7 text-xs sm:text-sm font-extrabold tracking-wide text-[#FFFDF7]"
             >
               <span>{text}</span>
-              <JasmineDiamondIcon className="w-3.5 h-3.5 text-[#E8A514] shrink-0" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logo-emblem.png"
+                alt=""
+                aria-hidden="true"
+                className="w-4 h-4 object-contain opacity-90 shrink-0"
+              />
             </span>
           ))}
         </div>
